@@ -1,0 +1,85 @@
+version: "3.8"
+
+services:
+  date-annotator:
+    image: nlpsandbox/date-annotator-example:0.3.2
+    container_name: date-annotator
+    restart: always
+    networks:
+      - nlp-sandbox-internal
+
+  person-name-annotator:
+    image: nlpsandbox/person-name-annotator-example:0.3.2
+    container_name: person-name-annotator
+    restart: always
+    networks:
+      - nlp-sandbox-internal
+
+  physical-address-annotator:
+    image: nlpsandbox/physical-address-annotator-example:0.3.2
+    container_name: physical-address-annotator
+    restart: always
+    networks:
+      - nlp-sandbox-internal
+
+  phi-deidentifier:
+    image: nlpsandbox/phi-deidentifier:edge
+    container_name: phi-deidentifier
+    restart: always
+    environment:
+      - DATE_ANNOTATOR_HOST=date-annotator
+      - DATE_ANNOTATOR_PORT=8080
+      - PERSON_NAME_ANNOTATOR_HOST=person-name-annotator
+      - PERSON_NAME_ANNOTATOR_PORT=8080
+      - PHYSICAL_ADDRESS_ANNOTATOR_HOST=physical-address-annotator
+      - PHYSICAL_ADDRESS_ANNOTATOR_PORT=8080
+    networks:
+      - nlp-sandbox-internal
+    depends_on:
+      - date-annotator
+      - person-name-annotator
+      - physical-address-annotator
+
+  phi-deidentifier-app:
+    image: nlpsandbox/phi-deidentifier-app:edge
+    build:
+      context: client
+      dockerfile: Dockerfile
+    container_name: phi-deidentifier-app
+    environment:
+      - SERVER_PORT=${SERVER_PORT}
+      - SERVER_PROTOCOL=${SERVER_PROTOCOL}
+      - SERVER_HOST=${SERVER_HOST}
+      - SERVER_API_PATH=${SERVER_API_PATH}
+    restart: always
+    networks:
+      - nlp-sandbox-internal
+    depends_on:
+      - phi-deidentifier
+
+  nginx:
+    build:
+      context: nginx
+      dockerfile: Dockerfile
+    container_name: nginx
+    restart: always
+    environment:
+      - SERVER_HOST=phi-deidentifier
+      - SERVER_PORT=8080
+      - CLIENT_HOST=phi-deidentifier-app
+      - CLIENT_PORT=80
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/templates:/etc/nginx/templates:ro
+    networks:
+      - nlp-sandbox
+      - nlp-sandbox-internal
+    ports:
+      - "80:80"
+    depends_on:
+      - phi-deidentifier-app
+
+networks:
+  nlp-sandbox:
+  nlp-sandbox-internal:
+    internal: true

@@ -1,0 +1,7 @@
+.empty/
+.vscode/
+node_modules/
+
+dist.yaml
+openapi.yaml
+openapitools.json
