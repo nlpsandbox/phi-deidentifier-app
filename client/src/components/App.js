@@ -1,5 +1,5 @@
 import './App.css';
-import { DeidentifiedNotesApi, ToolApi } from '../apis';
+import { DeidentifiedNoteApi, ToolApi } from '../apis';
 import { DeidentifyRequestFromJSON } from '../models';
 import React from 'react';
 import { Configuration } from '../runtime';
@@ -13,7 +13,7 @@ import Config from '../config';
 
 const config = new Config()
 const apiConfiguration = new Configuration({basePath: config.serverApiUrl()});
-const deidentifiedNotesApi = new DeidentifiedNotesApi(apiConfiguration);
+const deidentifiedNotesApi = new DeidentifiedNoteApi(apiConfiguration);
 const toolApi = new ToolApi(apiConfiguration);
 
 class App extends React.Component {
