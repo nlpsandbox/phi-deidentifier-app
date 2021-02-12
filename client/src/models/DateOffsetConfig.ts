@@ -14,34 +14,34 @@
 
 import { exists, mapValues } from '../runtime';
 /**
- * 
+ * Configuration for the "date offset" strategy. E.g. "John Smith visited on 1 January 2020" -> "John Smith visited on 29 October 2025". Note, can only be set with the "text_date" annotation type.
  * @export
- * @interface TextDateAnnotationAllOf
+ * @interface DateOffsetConfig
  */
-export interface TextDateAnnotationAllOf {
+export interface DateOffsetConfig {
     /**
-     * Date format (ISO 8601)
-     * @type {string}
-     * @memberof TextDateAnnotationAllOf
+     * Number of days by which to offset annotated dates.
+     * @type {number}
+     * @memberof DateOffsetConfig
      */
-    dateFormat?: string;
+    offsetDays: number;
 }
 
-export function TextDateAnnotationAllOfFromJSON(json: any): TextDateAnnotationAllOf {
-    return TextDateAnnotationAllOfFromJSONTyped(json, false);
+export function DateOffsetConfigFromJSON(json: any): DateOffsetConfig {
+    return DateOffsetConfigFromJSONTyped(json, false);
 }
 
-export function TextDateAnnotationAllOfFromJSONTyped(json: any, ignoreDiscriminator: boolean): TextDateAnnotationAllOf {
+export function DateOffsetConfigFromJSONTyped(json: any, ignoreDiscriminator: boolean): DateOffsetConfig {
     if ((json === undefined) || (json === null)) {
         return json;
     }
     return {
         
-        'dateFormat': !exists(json, 'dateFormat') ? undefined : json['dateFormat'],
+        'offsetDays': json['offsetDays'],
     };
 }
 
-export function TextDateAnnotationAllOfToJSON(value?: TextDateAnnotationAllOf | null): any {
+export function DateOffsetConfigToJSON(value?: DateOffsetConfig | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -50,7 +50,7 @@ export function TextDateAnnotationAllOfToJSON(value?: TextDateAnnotationAllOf | 
     }
     return {
         
-        'dateFormat': value.dateFormat,
+        'offsetDays': value.offsetDays,
     };
 }
 
