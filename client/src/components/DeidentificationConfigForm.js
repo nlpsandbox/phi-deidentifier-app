@@ -1,7 +1,13 @@
 import './DeidentificationConfigForm.css'
 import React from 'react';
-import { DeidentificationConfigAnnotationTypesEnum } from '../models';
+import { DeidentificationStepAnnotationTypesEnum } from '../models';
 import { Collapse } from '@material-ui/core';
+
+const DEIDENTIFICATION_STRATEGIES = {
+  "maskingCharConfig": "Masking Character",
+  "annotationTypeMaskConfig": "Annotation Type Mask",
+  "redactConfig": "Redaction"
+}
 
 export class DeidentificationConfigForm extends React.Component {
   constructor(props) {
@@ -11,38 +17,41 @@ export class DeidentificationConfigForm extends React.Component {
     }
   }
 
-  updateDeidConfig = (newSettings) => {
-    this.props.updateDeidConfig(this.props.index, newSettings);
+  updateDeidStep = (newSettings) => {
+    this.props.updateDeidStep(this.props.index, newSettings);
+  }
+
+  getStrategy() {
+    // Return the current deidentification strategy for this deidentification step
+    let strategy;
+    const deidStrategies = Object.keys(DEIDENTIFICATION_STRATEGIES)
+    for (let i = 0; i < deidStrategies.length; i++) {
+      strategy = deidStrategies[i]
+      if (strategy in this.props) {
+        return strategy;
+      }
+    }
   }
 
   handleStrategyChange = (event) => {
-    // Convert strategy name into correct {key: value} pair
-    const newDeidStrategyName = event.target.value;
-    let newDeidentificationStrategy = {};
-    // FIXME: Ideally this could draw on the models defined in src/models
-    if (newDeidStrategyName === "maskingCharConfig") {
-      newDeidentificationStrategy[newDeidStrategyName] = { maskingChar: "*" };
+    const newStrategyName = event.target.value;
+    const oldStrategyName = this.getStrategy();
+    if (newStrategyName === "maskingCharConfig") {
+      this.props.redoDeidStep(this.props.index, oldStrategyName, newStrategyName, {maskingChar: "*"});
     } else {
-      newDeidentificationStrategy[newDeidStrategyName] = {}
+      this.props.redoDeidStep(this.props.index, oldStrategyName, newStrategyName, {})
     }
-
-    // Push up the state
-    this.updateDeidConfig({
-      deidentificationStrategy: newDeidentificationStrategy
-    });
   }
 
   handleMaskingCharChange = (event) => {
     const maskingChar = event.target.value;
-    this.updateDeidConfig({
-      deidentificationStrategy: {
-        maskingCharConfig: { maskingChar: maskingChar }
-      }
+    this.updateDeidStep({
+      maskingCharConfig: { maskingChar: maskingChar }
     });
   }
 
   handleConfidenceThresholdChange = (event) => {
-    this.updateDeidConfig({
+    this.updateDeidStep({
       confidenceThreshold: parseFloat(event.target.value)
     });
   }
@@ -50,14 +59,14 @@ export class DeidentificationConfigForm extends React.Component {
   handleAnnotationTypeDelete = (event, index) => {
     const annotationTypes = this.props.annotationTypes
     const newAnnotationTypes = annotationTypes.slice(0, index).concat(annotationTypes.slice(index+1));
-    this.updateDeidConfig({
+    this.updateDeidStep({
       annotationTypes: newAnnotationTypes
     });
   }
 
   handleAnnotationTypeAdd = (event) => {
     const annotationType = event.target.value;
-    this.updateDeidConfig({
+    this.updateDeidStep({
       annotationTypes: this.props.annotationTypes.concat(annotationType)
     });
   }
@@ -66,7 +75,7 @@ export class DeidentificationConfigForm extends React.Component {
     this.setState(
       { expand: false }, () => {
         setTimeout(
-          () => {this.props.deleteDeidConfig(this.props.index);},
+          () => {this.props.deleteDeidStep(this.props.index);},
           250
         )
       }
@@ -77,12 +86,8 @@ export class DeidentificationConfigForm extends React.Component {
     this.setState({ expand: true });
   }
 
-  getStrategy = () => {
-    return Object.keys(this.props.deidentificationStrategy)[0];
-  }
-
   render = () => {
-    const allAnnotationTypes = Object.values(DeidentificationConfigAnnotationTypesEnum)
+    const allAnnotationTypes = Object.values(DeidentificationStepAnnotationTypesEnum)
     return (
       <Collapse in={this.state.expand}>
       <div className="deid-config-form">
@@ -97,13 +102,13 @@ export class DeidentificationConfigForm extends React.Component {
             </td>
             <td>
               <select onChange={this.handleStrategyChange} value={this.getStrategy()}>
-                <option value="maskingCharConfig">Masking Character</option>
-                <option value="redactConfig">Redact</option>
-                <option value="annotationTypeConfig">Annotation Type</option>
+                {Object.keys(DEIDENTIFICATION_STRATEGIES).map((strategy) => {
+                  return <option value={strategy} key={strategy}>{DEIDENTIFICATION_STRATEGIES[strategy]}</option>;
+                })}
               </select>
               &nbsp;
               {this.getStrategy() === "maskingCharConfig" &&
-                <input type="text" maxLength={1} value={this.props.deidentificationStrategy.maskingCharConfig.maskingChar} onChange={this.handleMaskingCharChange} />
+                <input type="text" maxLength={1} value={this.props.maskingCharConfig.maskingChar} onChange={this.handleMaskingCharChange} />
               }
             </td>
           </tr>

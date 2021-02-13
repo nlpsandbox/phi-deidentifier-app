@@ -1,5 +1,5 @@
 import './App.css';
-import { DeidentifiedNotesApi, ToolApi } from '../apis';
+import { DeidentifiedNoteApi, ToolApi } from '../apis';
 import { DeidentifyRequestFromJSON } from '../models';
 import React from 'react';
 import { Configuration } from '../runtime';
@@ -13,7 +13,7 @@ import Config from '../config';
 
 const config = new Config()
 const apiConfiguration = new Configuration({basePath: config.serverApiUrl()});
-const deidentifiedNotesApi = new DeidentifiedNotesApi(apiConfiguration);
+const deidentifiedNotesApi = new DeidentifiedNoteApi(apiConfiguration);
 const toolApi = new ToolApi(apiConfiguration);
 
 class App extends React.Component {
@@ -30,15 +30,17 @@ class App extends React.Component {
       showInfo = false;
     } else {
       deidentifyRequest = {
-        deidentificationConfigurations: [{
+        deidentificationSteps: [{
           key: 0,
           confidenceThreshold: 20,
-          deidentificationStrategy: {maskingCharConfig: {maskingChar: "*"}},
+          maskingCharConfig: {maskingChar: "*"},
           annotationTypes: ["text_person_name", "text_physical_address", "text_date"]
         }],
         note: {
           text: "",
-          noteType: "ASDF"  // FIXME: figure out whether and how to get this
+          noteType: "0000",  // FIXME: figure out whether and how to get this
+          identifier: "0000",
+          patientId: "0000"
         },
         keyMax: 0
       };
@@ -80,22 +82,26 @@ class App extends React.Component {
       });
   }
 
-  updateDeidentificationConfig = (index, newSettings) => {
-    let deidentificationConfigurations = [...this.state.deidentifyRequest.deidentificationConfigurations];
-    let oldDeidentificationConfig = {...this.state.deidentifyRequest.deidentificationConfigurations[index]}
-    deidentificationConfigurations[index] = {
-      ...oldDeidentificationConfig,
-      ...newSettings
-    };
+  replaceDeidentificationStep = (index, newStep) => {
+    let deidentificationSteps = [...this.state.deidentifyRequest.deidentificationSteps];
+    deidentificationSteps[index] = newStep;
     this.setState(
       {
         deidentifyRequest: {
           ...this.state.deidentifyRequest,
-          deidentificationConfigurations: deidentificationConfigurations
+          deidentificationSteps: deidentificationSteps
         }
       },
       () => this.updateUrl()
     );
+  }
+  
+  updateDeidentificationStep = (index, newSettings) => {
+    const newStep = {
+      ...this.state.deidentifyRequest.deidentificationSteps[index],
+      ...newSettings
+    };
+    this.replaceDeidentificationStep(index, newStep);
   }
 
   handleTextAreaChange(event) {
@@ -113,20 +119,20 @@ class App extends React.Component {
     );
   }
 
-  addDeidConfig = (event) => {
-    let deidentificationConfigurations = [...this.state.deidentifyRequest.deidentificationConfigurations];
-    const newDeidConfig = {
+  addDeidStep = (event) => {
+    let deidentificationSteps = [...this.state.deidentifyRequest.deidentificationSteps];
+    const newDeidStep = {
       confidenceThreshold: 20,
-      deidentificationStrategy: {maskingCharConfig: {maskingChar: "*"}},
+      maskingCharConfig: {maskingChar: "*"},
       annotationTypes: ["text_person_name", "text_physical_address", "text_date"],
       key: this.state.deidentifyRequest.keyMax+1
     };
-    deidentificationConfigurations.push(newDeidConfig);
+    deidentificationSteps.push(newDeidStep);
     this.setState(
       {
         deidentifyRequest: {
           ...this.state.deidentifyRequest,
-          deidentificationConfigurations: deidentificationConfigurations,
+          deidentificationSteps: deidentificationSteps,
           keyMax: this.state.deidentifyRequest.keyMax + 1
         }
       },
@@ -134,14 +140,22 @@ class App extends React.Component {
     );
   }
 
-  deleteDeidConfig = (index) => {
-    let deidentificationConfigurations = [...this.state.deidentifyRequest.deidentificationConfigurations];
-    deidentificationConfigurations.splice(index, 1);
+  redoDeidentificationStep = (index, oldKey, newKey, newValue) => {
+    // Delete a key from a deid step, and add a new key, value pair to it
+    let {[oldKey]: omitted, ...newDeidStep} = this.state.deidentifyRequest.deidentificationSteps[index];
+    newDeidStep[newKey] = newValue;
+    
+    this.replaceDeidentificationStep(index, newDeidStep);
+  }
+
+  deleteDeidentificationStep = (index) => {
+    let deidentificationSteps = [...this.state.deidentifyRequest.deidentificationSteps];
+    deidentificationSteps.splice(index, 1);
     this.setState(
       {
         deidentifyRequest: {
           ...this.state.deidentifyRequest,
-          deidentificationConfigurations: deidentificationConfigurations
+          deidentificationSteps: deidentificationSteps
         }
       },
       () => this.updateUrl()
@@ -166,17 +180,18 @@ class App extends React.Component {
         <button className="deidentify-button" onClick={this.deidentifyNote}>De-identify Note</button>
         <br />
         {
-          this.state.deidentifyRequest.deidentificationConfigurations.map((deidConfig, index) => 
+          this.state.deidentifyRequest.deidentificationSteps.map((deidStep, index) => 
             <DeidentificationConfigForm
-              updateDeidConfig={this.updateDeidentificationConfig}
-              deleteDeidConfig={this.deleteDeidConfig}
-              key={deidConfig.key}
+              deleteDeidStep={this.deleteDeidentificationStep}
+              updateDeidStep={this.updateDeidentificationStep}
+              redoDeidStep={this.redoDeidentificationStep}
+              key={deidStep.key}
               index={index}
-              {...deidConfig}
+              {...deidStep}
             />
           )
         }
-        <div className="deid-config-add" onClick={this.addDeidConfig}>&#x002B;</div>
+        <div className="deid-config-add" onClick={this.addDeidStep}>&#x002B;</div>
       </div>
       <div className="right">
         <Box padding={2}>

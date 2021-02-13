@@ -14,34 +14,34 @@
 
 import { exists, mapValues } from '../runtime';
 /**
- * 
+ * Configuration for the masking char strategy. E.g. "John Smith lives at 123 Main St" -> "********* lives at ***********".
  * @export
- * @interface TextDateAnnotationAllOf
+ * @interface MaskingCharConfig
  */
-export interface TextDateAnnotationAllOf {
+export interface MaskingCharConfig {
     /**
-     * Date format (ISO 8601)
+     * Character used to mask sensitive information
      * @type {string}
-     * @memberof TextDateAnnotationAllOf
+     * @memberof MaskingCharConfig
      */
-    dateFormat?: string;
+    maskingChar?: string;
 }
 
-export function TextDateAnnotationAllOfFromJSON(json: any): TextDateAnnotationAllOf {
-    return TextDateAnnotationAllOfFromJSONTyped(json, false);
+export function MaskingCharConfigFromJSON(json: any): MaskingCharConfig {
+    return MaskingCharConfigFromJSONTyped(json, false);
 }
 
-export function TextDateAnnotationAllOfFromJSONTyped(json: any, ignoreDiscriminator: boolean): TextDateAnnotationAllOf {
+export function MaskingCharConfigFromJSONTyped(json: any, ignoreDiscriminator: boolean): MaskingCharConfig {
     if ((json === undefined) || (json === null)) {
         return json;
     }
     return {
         
-        'dateFormat': !exists(json, 'dateFormat') ? undefined : json['dateFormat'],
+        'maskingChar': !exists(json, 'maskingChar') ? undefined : json['maskingChar'],
     };
 }
 
-export function TextDateAnnotationAllOfToJSON(value?: TextDateAnnotationAllOf | null): any {
+export function MaskingCharConfigToJSON(value?: MaskingCharConfig | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -50,7 +50,7 @@ export function TextDateAnnotationAllOfToJSON(value?: TextDateAnnotationAllOf | 
     }
     return {
         
-        'dateFormat': value.dateFormat,
+        'maskingChar': value.maskingChar,
     };
 }
 
