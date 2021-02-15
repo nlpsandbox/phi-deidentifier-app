@@ -6,7 +6,7 @@ import { Configuration } from '../runtime';
 import { DeidentifiedText, deidentificationStates } from './DeidentifiedText';
 import { DeidentificationConfigForm } from './DeidentificationConfigForm';
 import { encodeString, decodeString } from '../stringSmuggler';
-import { AppBar, Box, IconButton, Toolbar, Typography } from '@material-ui/core';
+import { AppBar, Box, IconButton, Toolbar, Grid, Typography } from '@material-ui/core';
 import InfoIcon from '@material-ui/icons/Info';
 import { InfoDialog } from './InfoDialog';
 import Config from '../config';
@@ -171,34 +171,36 @@ class App extends React.Component {
           <IconButton onClick={() => {this.setState({showInfo: true})}}><InfoIcon style={{ color: "white" }} /></IconButton>
         </Toolbar>
       </AppBar>
-      <div className="left">
-        <Box padding={2}>
-          <Typography variant="h5" style={{ fontWeight: "bold" }}>Input note:</Typography>
-        </Box>
-        <textarea onChange={this.handleTextAreaChange} value={this.state.deidentifyRequest.note.text} />
-        <br />
-        <button className="deidentify-button" onClick={this.deidentifyNote}>De-identify Note</button>
-        <br />
-        {
-          this.state.deidentifyRequest.deidentificationSteps.map((deidStep, index) => 
-            <DeidentificationConfigForm
-              deleteDeidStep={this.deleteDeidentificationStep}
-              updateDeidStep={this.updateDeidentificationStep}
-              redoDeidStep={this.redoDeidentificationStep}
-              key={deidStep.key}
-              index={index}
-              {...deidStep}
-            />
-          )
-        }
-        <div className="deid-config-add" onClick={this.addDeidStep}>&#x002B;</div>
-      </div>
-      <div className="right">
-        <Box padding={2}>
-        <Typography variant="h5" style={{ fontWeight: "bold" }}>Deidentified note:</Typography>
-        </Box>
-        <DeidentifiedText text={this.state.deidentifiedNoteText} />
-      </div>
+      <Grid container>
+        <Grid align="center" item xs={6}>
+          <Box padding={2}>
+            <Typography variant="h5" style={{ fontWeight: "bold" }}>Input note:</Typography>
+          </Box>
+          <textarea onChange={this.handleTextAreaChange} value={this.state.deidentifyRequest.note.text} />
+          <br />
+          <button className="deidentify-button" onClick={this.deidentifyNote}>De-identify Note</button>
+          <br />
+          {
+            this.state.deidentifyRequest.deidentificationSteps.map((deidStep, index) => 
+              <DeidentificationConfigForm
+                deleteDeidStep={this.deleteDeidentificationStep}
+                updateDeidStep={this.updateDeidentificationStep}
+                redoDeidStep={this.redoDeidentificationStep}
+                key={deidStep.key}
+                index={index}
+                {...deidStep}
+              />
+            )
+          }
+          <div className="deid-config-add" onClick={this.addDeidStep}>&#x002B;</div>
+        </Grid>
+        <Grid align="center" item xs={6}>
+          <Box padding={2}>
+          <Typography variant="h5" style={{ fontWeight: "bold" }}>Deidentified note:</Typography>
+          </Box>
+          <DeidentifiedText text={this.state.deidentifiedNoteText} />
+        </Grid>
+      </Grid>
       <InfoDialog
         open={this.state.showInfo}
         handleClose={() => {this.setState({showInfo: false})}}
