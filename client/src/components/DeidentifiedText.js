@@ -1,5 +1,6 @@
 import './DeidentifiedText.css';
 import React from 'react';
+import { Paper } from '@material-ui/core';
 
 export const deidentificationStates = {
   EMPTY: 0,
@@ -11,7 +12,7 @@ export class DeidentifiedText extends React.Component {
   render() {
     let content;
     if (this.props.text === deidentificationStates.EMPTY) {
-      content = <i>Input a note and de-identify it in the text box on the right...</i>;
+      content = <i>Input a note and de-identify it in the text box on the left...</i>;
     } else if (this.props.text === deidentificationStates.LOADING) {
       content = <i>Loading...</i>;
     } else if (this.props.text === deidentificationStates.ERROR) {
@@ -20,6 +21,6 @@ export class DeidentifiedText extends React.Component {
       content = this.props.text;
     }
 
-    return <div className="deidentified-text">{content}</div>
+    return <Paper className="deidentified-text" elevation={3}>{content}</Paper>
   }
 }
