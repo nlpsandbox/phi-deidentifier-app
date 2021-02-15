@@ -172,7 +172,7 @@ class App extends React.Component {
         </Toolbar>
       </AppBar>
       <Grid container>
-        <Grid align="center" item xs={6} container direction="column" spacing={1}>
+        <Grid align="center" item xs={6} container direction="column" spacing={2}>
           <Grid item>
             <Box padding={2}>
               <Typography variant="h5" style={{ fontWeight: "bold" }}>Input note:</Typography>
@@ -184,10 +184,9 @@ class App extends React.Component {
           <Grid item>
             <button className="deidentify-button" onClick={this.deidentifyNote}>De-identify Note</button>
           </Grid>
-          <Grid item align="center" container direction="column" spacing={1}>
           {
             this.state.deidentifyRequest.deidentificationSteps.map((deidStep, index) => 
-              <Grid item align="center" key={deidStep.key} container direction="row" spacing={2}>
+              <Grid item align="center" key={deidStep.key} container direction="row" spacing={1}>
                 <Grid item xs={0} lg={2}></Grid>
                 <Grid item xs={12} lg={8}>
                   <DeidentificationConfigForm
@@ -202,7 +201,6 @@ class App extends React.Component {
               </Grid>
             )
           }
-          </Grid>
           <Grid item>
             <div className="deid-config-add" onClick={this.addDeidStep}>&#x002B;</div>
           </Grid>
