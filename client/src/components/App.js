@@ -205,11 +205,15 @@ class App extends React.Component {
             <div className="deid-config-add" onClick={this.addDeidStep}>&#x002B;</div>
           </Grid>
         </Grid>
-        <Grid align="center" item xs={6}>
-          <Box padding={2}>
-          <Typography variant="h5" style={{ fontWeight: "bold" }}>Deidentified note:</Typography>
-          </Box>
-          <DeidentifiedText text={this.state.deidentifiedNoteText} />
+        <Grid align="center" item xs={6} container spacing={2} direction="column">
+          <Grid item>
+            <Box padding={2}>
+              <Typography variant="h5" style={{ fontWeight: "bold" }}>Deidentified note:</Typography>
+            </Box>
+          </Grid>
+          <Grid item>
+            <DeidentifiedText text={this.state.deidentifiedNoteText} />
+          </Grid>
         </Grid>
       </Grid>
       <InfoDialog
