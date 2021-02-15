@@ -172,27 +172,40 @@ class App extends React.Component {
         </Toolbar>
       </AppBar>
       <Grid container>
-        <Grid align="center" item xs={6}>
-          <Box padding={2}>
-            <Typography variant="h5" style={{ fontWeight: "bold" }}>Input note:</Typography>
-          </Box>
-          <textarea onChange={this.handleTextAreaChange} value={this.state.deidentifyRequest.note.text} />
-          <br />
-          <button className="deidentify-button" onClick={this.deidentifyNote}>De-identify Note</button>
-          <br />
+        <Grid align="center" item xs={6} container direction="column" spacing={1}>
+          <Grid item>
+            <Box padding={2}>
+              <Typography variant="h5" style={{ fontWeight: "bold" }}>Input note:</Typography>
+            </Box>
+          </Grid>
+          <Grid item>
+            <textarea onChange={this.handleTextAreaChange} value={this.state.deidentifyRequest.note.text} />
+          </Grid>
+          <Grid item>
+            <button className="deidentify-button" onClick={this.deidentifyNote}>De-identify Note</button>
+          </Grid>
+          <Grid item align="center" container direction="column" spacing={1}>
           {
             this.state.deidentifyRequest.deidentificationSteps.map((deidStep, index) => 
-              <DeidentificationConfigForm
-                deleteDeidStep={this.deleteDeidentificationStep}
-                updateDeidStep={this.updateDeidentificationStep}
-                redoDeidStep={this.redoDeidentificationStep}
-                key={deidStep.key}
-                index={index}
-                {...deidStep}
-              />
+              <Grid item align="center" key={deidStep.key} container direction="row" spacing={2}>
+                <Grid item xs={0} lg={2}></Grid>
+                <Grid item xs={12} lg={8}>
+                  <DeidentificationConfigForm
+                    deleteDeidStep={this.deleteDeidentificationStep}
+                    updateDeidStep={this.updateDeidentificationStep}
+                    redoDeidStep={this.redoDeidentificationStep}
+                    index={index}
+                    {...deidStep}
+                  />
+                </Grid>
+                <Grid item xs={0} lg={2}></Grid>
+              </Grid>
             )
           }
-          <div className="deid-config-add" onClick={this.addDeidStep}>&#x002B;</div>
+          </Grid>
+          <Grid item>
+            <div className="deid-config-add" onClick={this.addDeidStep}>&#x002B;</div>
+          </Grid>
         </Grid>
         <Grid align="center" item xs={6}>
           <Box padding={2}>

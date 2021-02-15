@@ -1,7 +1,7 @@
 import './DeidentificationConfigForm.css'
 import React from 'react';
 import { DeidentificationStepAnnotationTypesEnum } from '../models';
-import { Collapse } from '@material-ui/core';
+import { Collapse, Paper } from '@material-ui/core';
 
 const DEIDENTIFICATION_STRATEGIES = {
   "maskingCharConfig": "Masking Character",
@@ -90,62 +90,62 @@ export class DeidentificationConfigForm extends React.Component {
     const allAnnotationTypes = Object.values(DeidentificationStepAnnotationTypesEnum)
     return (
       <Collapse in={this.state.expand}>
-      <div className="deid-config-form">
-        <div className="deid-config-form-bar">
-          <div className="deid-config-header">De-id Step #{this.props.index + 1}</div>
-          <div className="deid-config-remove" onClick={this.handleDelete}></div>
-        </div>
-        <table>
-          <tr>
-            <td>
-              Method
-            </td>
-            <td>
-              <select onChange={this.handleStrategyChange} value={this.getStrategy()}>
-                {Object.keys(DEIDENTIFICATION_STRATEGIES).map((strategy) => {
-                  return <option value={strategy} key={strategy}>{DEIDENTIFICATION_STRATEGIES[strategy]}</option>;
-                })}
-              </select>
-              &nbsp;
-              {this.getStrategy() === "maskingCharConfig" &&
-                <input type="text" maxLength={1} value={this.props.maskingCharConfig.maskingChar} onChange={this.handleMaskingCharChange} />
-              }
-            </td>
-          </tr>
-          <tr>
-            <td>
-              Confidence threshold
-            </td>
-            <td>
-              <input type="number" onChange={this.handleConfidenceThresholdChange} name="confidenceThreshold" value={this.props.confidenceThreshold} />
-            </td>
-          </tr>
-          <tr>
-          <td>
-            Annotation types
-          </td>
-          <td>
-              <div>
-                {this.props.annotationTypes.map((annotationType, index) => {
-                  return (
-                    <div>{annotationType} <button onClick={(event) => {this.handleAnnotationTypeDelete(event, index);}}> - </button></div>
-                  );
-                })}
-                {this.props.annotationTypes.length < allAnnotationTypes.length &&
-                  <select value="" onChange={this.handleAnnotationTypeAdd}>
-                    <option value="">...</option>
-                    {allAnnotationTypes.filter(annotationType => !this.props.annotationTypes.includes(annotationType)).map((annotationType) => {
-                      return (
-                        <option value={annotationType}>{annotationType}</option>
-                      );
-                    })}
-                  </select>
+        <Paper style={{ backgroundColor: "grey", color: "white", fontFamily: "monospace", fontSize: "16px" }}>
+          <div className="deid-config-form-bar">
+            <div className="deid-config-header">De-id Step #{this.props.index + 1}</div>
+            <div className="deid-config-remove" onClick={this.handleDelete}></div>
+          </div>
+          <table>
+            <tr>
+              <td>
+                Method
+              </td>
+              <td>
+                <select onChange={this.handleStrategyChange} value={this.getStrategy()}>
+                  {Object.keys(DEIDENTIFICATION_STRATEGIES).map((strategy) => {
+                    return <option value={strategy} key={strategy}>{DEIDENTIFICATION_STRATEGIES[strategy]}</option>;
+                  })}
+                </select>
+                &nbsp;
+                {this.getStrategy() === "maskingCharConfig" &&
+                  <input type="text" maxLength={1} value={this.props.maskingCharConfig.maskingChar} onChange={this.handleMaskingCharChange} />
                 }
-              </div>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                Confidence threshold
+              </td>
+              <td>
+                <input type="number" onChange={this.handleConfidenceThresholdChange} name="confidenceThreshold" value={this.props.confidenceThreshold} />
+              </td>
+            </tr>
+            <tr>
+            <td>
+              Annotation types
             </td>
-          </tr>
-        </table>
-      </div>
+            <td>
+                <div>
+                  {this.props.annotationTypes.map((annotationType, index) => {
+                    return (
+                      <div>{annotationType} <button onClick={(event) => {this.handleAnnotationTypeDelete(event, index);}}> - </button></div>
+                    );
+                  })}
+                  {this.props.annotationTypes.length < allAnnotationTypes.length &&
+                    <select value="" onChange={this.handleAnnotationTypeAdd}>
+                      <option value="">...</option>
+                      {allAnnotationTypes.filter(annotationType => !this.props.annotationTypes.includes(annotationType)).map((annotationType) => {
+                        return (
+                          <option value={annotationType}>{annotationType}</option>
+                        );
+                      })}
+                    </select>
+                  }
+                </div>
+              </td>
+            </tr>
+          </table>
+        </Paper>
       </Collapse>
     );
   }
