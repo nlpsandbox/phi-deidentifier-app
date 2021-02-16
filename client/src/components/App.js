@@ -167,7 +167,7 @@ class App extends React.Component {
     <div className="App">
       <AppBar style={{ backgroundColor: "grey" }} position="static">
         <Toolbar>
-          <Typography variant="h4" style={{ flex: 1 }} >NLP Sandbox PHI Deidentifier</Typography>
+          <Typography variant="h4" style={{ flex: 1 }} >NLP Sandbox PHI De-identifier</Typography>
           <IconButton onClick={() => {this.setState({showInfo: true})}}><InfoIcon style={{ color: "white" }} /></IconButton>
         </Toolbar>
       </AppBar>
@@ -208,7 +208,7 @@ class App extends React.Component {
         <Grid align="center" item xs={6} container spacing={2} direction="column">
           <Grid item>
             <Box padding={2}>
-              <Typography variant="h5" style={{ fontWeight: "bold" }}>Deidentified note:</Typography>
+              <Typography variant="h5" style={{ fontWeight: "bold" }}>De-identified note:</Typography>
             </Box>
           </Grid>
           <Grid item>
