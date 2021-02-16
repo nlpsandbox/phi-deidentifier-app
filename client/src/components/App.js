@@ -6,7 +6,7 @@ import { Configuration } from '../runtime';
 import { DeidentifiedText, deidentificationStates } from './DeidentifiedText';
 import { DeidentificationConfigForm } from './DeidentificationConfigForm';
 import { encodeString, decodeString } from '../stringSmuggler';
-import { AppBar, Box, IconButton, Toolbar, Grid, Typography } from '@material-ui/core';
+import { AppBar, Box, IconButton, Paper, Toolbar, Grid, Typography, TextField } from '@material-ui/core';
 import InfoIcon from '@material-ui/icons/Info';
 import { InfoDialog } from './InfoDialog';
 import { AnnotationView } from './AnnotationView';
@@ -172,7 +172,7 @@ class App extends React.Component {
           <IconButton onClick={() => {this.setState({showInfo: true})}}><InfoIcon style={{ color: "white" }} /></IconButton>
         </Toolbar>
       </AppBar>
-      <Grid container>
+      <Grid container spacing={1}>
         <Grid item xs={0} md={1} />
         <Grid align="center" item xs={6} md={4} container direction="column" spacing={2}>
           <Grid item>
@@ -181,25 +181,30 @@ class App extends React.Component {
             </Box>
           </Grid>
           <Grid item>
-            <textarea onChange={this.handleTextAreaChange} value={this.state.deidentifyRequest.note.text} />
+            <Paper>
+              <TextField
+                multiline
+                fullWidth
+                variant="outlined"
+                rows={20}
+                onChange={this.handleTextAreaChange}
+                value={this.state.deidentifyRequest.note.text}
+              />
+            </Paper>
           </Grid>
           <Grid item>
             <button className="deidentify-button" onClick={this.deidentifyNote}>De-identify Note</button>
           </Grid>
           {
             this.state.deidentifyRequest.deidentificationSteps.map((deidStep, index) => 
-              <Grid item align="center" key={deidStep.key} container direction="row" spacing={1}>
-                <Grid item xs={0} lg={2}></Grid>
-                <Grid item xs={12} lg={8}>
-                  <DeidentificationConfigForm
-                    deleteDeidStep={this.deleteDeidentificationStep}
-                    updateDeidStep={this.updateDeidentificationStep}
-                    redoDeidStep={this.redoDeidentificationStep}
-                    index={index}
-                    {...deidStep}
-                  />
-                </Grid>
-                <Grid item xs={0} lg={2}></Grid>
+              <Grid item key={deidStep.key}>
+                <DeidentificationConfigForm
+                  deleteDeidStep={this.deleteDeidentificationStep}
+                  updateDeidStep={this.updateDeidentificationStep}
+                  redoDeidStep={this.redoDeidentificationStep}
+                  index={index}
+                  {...deidStep}
+                />
               </Grid>
             )
           }
@@ -208,7 +213,7 @@ class App extends React.Component {
           </Grid>
         </Grid>
         <Grid item xs={0} md={2} />
-        <Grid align="center" item xs={4} container spacing={2} direction="column">
+        <Grid align="center" item xs={6} md={4} container spacing={2} direction="column">
           <Grid item>
             <Box padding={2}>
               <Typography variant="h5" style={{ fontWeight: "bold" }}>De-identified note:</Typography>
