@@ -9,6 +9,7 @@ import { encodeString, decodeString } from '../stringSmuggler';
 import { AppBar, Box, IconButton, Toolbar, Grid, Typography } from '@material-ui/core';
 import InfoIcon from '@material-ui/icons/Info';
 import { InfoDialog } from './InfoDialog';
+import { AnnotationView } from './AnnotationView';
 import Config from '../config';
 
 const config = new Config()
@@ -172,7 +173,8 @@ class App extends React.Component {
         </Toolbar>
       </AppBar>
       <Grid container>
-        <Grid align="center" item xs={6} container direction="column" spacing={2}>
+        <Grid item xs={0} md={1} />
+        <Grid align="center" item xs={6} md={4} container direction="column" spacing={2}>
           <Grid item>
             <Box padding={2}>
               <Typography variant="h5" style={{ fontWeight: "bold" }}>Input note:</Typography>
@@ -205,7 +207,8 @@ class App extends React.Component {
             <div className="deid-config-add" onClick={this.addDeidStep}>&#x002B;</div>
           </Grid>
         </Grid>
-        <Grid align="center" item xs={6} container spacing={2} direction="column">
+        <Grid item xs={0} md={2} />
+        <Grid align="center" item xs={4} container spacing={2} direction="column">
           <Grid item>
             <Box padding={2}>
               <Typography variant="h5" style={{ fontWeight: "bold" }}>De-identified note:</Typography>
@@ -215,6 +218,7 @@ class App extends React.Component {
             <DeidentifiedText text={this.state.deidentifiedNoteText} />
           </Grid>
         </Grid>
+        <Grid item xs={0} md={1} />
       </Grid>
       <InfoDialog
         open={this.state.showInfo}
