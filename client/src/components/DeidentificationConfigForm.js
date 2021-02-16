@@ -98,7 +98,7 @@ export class DeidentificationConfigForm extends React.Component {
           <table>
             <tr>
               <td>
-                Method
+                Obfuscation Method
               </td>
               <td>
                 <select onChange={this.handleStrategyChange} value={this.getStrategy()}>
