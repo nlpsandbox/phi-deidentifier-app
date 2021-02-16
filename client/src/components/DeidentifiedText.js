@@ -26,6 +26,7 @@ export class DeidentifiedText extends React.Component {
           multiline
           fullWidth
           variant="outlined"
+          InputProps={{ style: {color: "black"} }}
           disabled
           rows={20}
           value={content} 
