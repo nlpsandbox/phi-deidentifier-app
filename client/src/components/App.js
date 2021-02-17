@@ -9,6 +9,7 @@ import { encodeString, decodeString } from '../stringSmuggler';
 import { AppBar, Box, IconButton, Paper, Toolbar, Grid, Typography, TextField } from '@material-ui/core';
 import InfoIcon from '@material-ui/icons/Info';
 import { InfoDialog } from './InfoDialog';
+import { AnnotationView } from './AnnotationView';
 import Config from '../config';
 
 const config = new Config()
@@ -49,6 +50,7 @@ class App extends React.Component {
 
     this.state = {
       deidentifiedNoteText: deidentificationStates.EMPTY,
+      deidentifiedAnnotations: deidentificationStates.EMPTY,
       deidentifyRequest: deidentifyRequest,
       showInfo: showInfo
     };
@@ -72,12 +74,14 @@ class App extends React.Component {
     deidentifiedNotesApi.createDeidentifiedNotes({deidentifyRequest: deidentifyRequest})
       .then((deidentifyResponse) => {
         this.setState({
-          deidentifiedNoteText: deidentifyResponse.deidentifiedNote.text
+          deidentifiedNoteText: deidentifyResponse.deidentifiedNote.text,
+          deidentifiedAnnotations: deidentifyResponse.deidentifiedAnnotations
         });
       })
       .catch(() => {
         this.setState({
-          deidentifiedNoteText: deidentificationStates.ERROR
+          deidentifiedNoteText: deidentificationStates.ERROR,
+          deidentifiedAnnotations: deidentificationStates.ERROR
         });
       });
   }
@@ -210,6 +214,9 @@ class App extends React.Component {
       </Grid>
       <Grid item>
         <DeidentifiedText text={this.state.deidentifiedNoteText} />
+      </Grid>
+      <Grid item>
+        <AnnotationView annotations={this.state.deidentifiedAnnotations} />
       </Grid>
     </Grid>
 
