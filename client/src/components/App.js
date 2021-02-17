@@ -6,7 +6,7 @@ import { Configuration } from '../runtime';
 import { DeidentifiedText, deidentificationStates } from './DeidentifiedText';
 import { DeidentificationConfigForm } from './DeidentificationConfigForm';
 import { encodeString, decodeString } from '../stringSmuggler';
-import { AppBar, Box, IconButton, Toolbar, Typography } from '@material-ui/core';
+import { AppBar, Box, IconButton, Paper, Toolbar, Grid, Typography, TextField } from '@material-ui/core';
 import InfoIcon from '@material-ui/icons/Info';
 import { InfoDialog } from './InfoDialog';
 import Config from '../config';
@@ -163,6 +163,56 @@ class App extends React.Component {
   }
 
   render() {
+    const leftColumn = <Grid align="center" item xs={6} md={4} container direction="column" spacing={2}>
+      <Grid item>
+        <Box padding={2}>
+          <Typography variant="h5" style={{ fontWeight: "bold" }}>Input note:</Typography>
+        </Box>
+      </Grid>
+      <Grid item>
+        <Paper>
+          <TextField
+            multiline
+            fullWidth
+            variant="outlined"
+            rows={20}
+            onChange={this.handleTextAreaChange}
+            value={this.state.deidentifyRequest.note.text}
+          />
+        </Paper>
+      </Grid>
+      <Grid item>
+        <button className="deidentify-button" onClick={this.deidentifyNote}>De-identify Note</button>
+      </Grid>
+      {
+        this.state.deidentifyRequest.deidentificationSteps.map((deidStep, index) => 
+          <Grid item key={deidStep.key}>
+            <DeidentificationConfigForm
+              deleteDeidStep={this.deleteDeidentificationStep}
+              updateDeidStep={this.updateDeidentificationStep}
+              redoDeidStep={this.redoDeidentificationStep}
+              index={index}
+              {...deidStep}
+            />
+          </Grid>
+        )
+      }
+      <Grid item>
+        <div className="deid-config-add" onClick={this.addDeidStep}>&#x002B;</div>
+      </Grid>
+    </Grid>
+
+    const rightColumn = <Grid align="center" item xs={6} md={4} container spacing={2} direction="column">
+      <Grid item>
+        <Box padding={2}>
+          <Typography variant="h5" style={{ fontWeight: "bold" }}>De-identified note:</Typography>
+        </Box>
+      </Grid>
+      <Grid item>
+        <DeidentifiedText text={this.state.deidentifiedNoteText} />
+      </Grid>
+    </Grid>
+
     return (
     <div className="App">
       <AppBar style={{ backgroundColor: "grey" }} position="static">
@@ -171,34 +221,13 @@ class App extends React.Component {
           <IconButton onClick={() => {this.setState({showInfo: true})}}><InfoIcon style={{ color: "white" }} /></IconButton>
         </Toolbar>
       </AppBar>
-      <div className="left">
-        <Box padding={2}>
-          <Typography variant="h5" style={{ fontWeight: "bold" }}>Input note:</Typography>
-        </Box>
-        <textarea onChange={this.handleTextAreaChange} value={this.state.deidentifyRequest.note.text} />
-        <br />
-        <button className="deidentify-button" onClick={this.deidentifyNote}>De-identify Note</button>
-        <br />
-        {
-          this.state.deidentifyRequest.deidentificationSteps.map((deidStep, index) => 
-            <DeidentificationConfigForm
-              deleteDeidStep={this.deleteDeidentificationStep}
-              updateDeidStep={this.updateDeidentificationStep}
-              redoDeidStep={this.redoDeidentificationStep}
-              key={deidStep.key}
-              index={index}
-              {...deidStep}
-            />
-          )
-        }
-        <div className="deid-config-add" onClick={this.addDeidStep}>&#x002B;</div>
-      </div>
-      <div className="right">
-        <Box padding={2}>
-        <Typography variant="h5" style={{ fontWeight: "bold" }}>Deidentified note:</Typography>
-        </Box>
-        <DeidentifiedText text={this.state.deidentifiedNoteText} />
-      </div>
+      <Grid container spacing={1}>
+        <Grid item xs={0} md={1} />
+        {leftColumn}
+        <Grid item xs={0} md={2} />
+        {rightColumn}
+        <Grid item xs={0} md={1} />
+      </Grid>
       <InfoDialog
         open={this.state.showInfo}
         handleClose={() => {this.setState({showInfo: false})}}

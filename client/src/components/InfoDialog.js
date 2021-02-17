@@ -106,12 +106,12 @@ export class InfoDialog extends React.Component {
   render = () => {
     let content;
     if (this.state.deidentifierInfo === toolInfoStates.LOADING) {
-      content = <DialogContent><CircularProgress /></DialogContent>
+      content = <CircularProgress />
     } else if (this.state.deidentifierInfo === toolInfoStates.ERROR) {
-      content = <DialogContent>API Error</DialogContent>;
+      content = <DialogContentText>API Error</DialogContentText>;
     } else {
       const toolInfo = this.state.deidentifierInfo;
-      content = <DialogContent>
+      content = <React.Fragment>
         <DialogContentText id="scroll-dialog-description" tabIndex={-1}>
           You are currently using version <b>{ toolInfo.version }</b> of
           the <Link href={ toolInfo.url }>NLP Sandbox PHI
@@ -121,7 +121,7 @@ export class InfoDialog extends React.Component {
           de-identified using the following annotators:
         </DialogContentText>
         <ToolDependenciesTable toolDependencies={this.state.toolDependencies} />
-      </DialogContent>
+      </React.Fragment>
     }
     return (
       <Dialog
@@ -131,9 +131,16 @@ export class InfoDialog extends React.Component {
         aria-labelledby="scroll-dialog-title"
         aria-describedby="scroll-dialog-description"
         maxWidth="lg"
+        padding={2}
       >
         <DialogTitle id="scroll-dialog-title">About This Tool</DialogTitle>
-        {content}
+        <DialogContent>
+          <DialogContentText>
+            Note: This application is for demonstration only. Only submit PHI
+            information to a server that your organization has approved.
+          </DialogContentText>
+          {content}
+        </DialogContent>
         <DialogActions>
             <Button onClick={this.props.handleClose} color="primary">
               Close
