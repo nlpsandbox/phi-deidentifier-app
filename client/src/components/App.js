@@ -170,7 +170,7 @@ class App extends React.Component {
     const leftColumn = <Grid align="center" item sm={6} lg={4} container direction="column" spacing={2}>
       <Grid item>
         <Box padding={2}>
-          <Typography variant="h5" style={{ fontWeight: "bold" }}>Input note:</Typography>
+          <Typography variant="h5" style={{ fontWeight: "bold" }}>Input Note</Typography>
         </Box>
       </Grid>
       <Grid item>
@@ -190,7 +190,7 @@ class App extends React.Component {
       </Grid>
       <Grid item>
         <Box padding={2}>
-          <Typography variant="h5" style={{ fontWeight: "bold" }}>Deidentification Steps:</Typography>
+          <Typography variant="h5" style={{ fontWeight: "bold" }}>Deidentification Steps</Typography>
         </Box>
       </Grid>
       {
@@ -214,7 +214,7 @@ class App extends React.Component {
     const rightColumn = <Grid align="center" item sm={6} lg={4} container spacing={2} direction="column">
       <Grid item>
         <Box padding={2}>
-          <Typography variant="h5" style={{ fontWeight: "bold" }}>De-identified note:</Typography>
+          <Typography variant="h5" style={{ fontWeight: "bold" }}>De-identified Note</Typography>
         </Box>
       </Grid>
       <Grid item>
@@ -222,7 +222,7 @@ class App extends React.Component {
       </Grid>
       <Grid item>
         <Box padding={2}>
-          <Typography variant="h5" style={{ fontWeight: "bold" }}>Annotations:</Typography>
+          <Typography variant="h5" style={{ fontWeight: "bold" }}>Annotations</Typography>
         </Box>
       </Grid>
       <Grid item>
