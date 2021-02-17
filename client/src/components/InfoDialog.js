@@ -136,7 +136,7 @@ export class InfoDialog extends React.Component {
         <DialogTitle id="scroll-dialog-title">About This Tool</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            Note: this application is for demonstration only. Only submit PHI
+            Note: This application is for demonstration only. Only submit PHI
             information to a server that your organization has approved.
           </DialogContentText>
           {content}
