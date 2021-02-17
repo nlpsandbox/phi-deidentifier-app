@@ -9,6 +9,12 @@ const DEIDENTIFICATION_STRATEGIES = {
   "redactConfig": "Redaction"
 }
 
+const ANNOTATION_TYPE_NAMES = {
+  "text_date": "Date",
+  "text_person_name": "Person Name",
+  "text_physical_address": "Physical Address"
+}
+
 export class DeidentificationConfigForm extends React.Component {
   constructor(props) {
     super(props);
@@ -98,7 +104,7 @@ export class DeidentificationConfigForm extends React.Component {
           <table>
             <tr>
               <td>
-                Obfuscation Method
+                Obfuscation method
               </td>
               <td>
                 <select onChange={this.handleStrategyChange} value={this.getStrategy()}>
@@ -128,7 +134,7 @@ export class DeidentificationConfigForm extends React.Component {
                 <div>
                   {this.props.annotationTypes.map((annotationType, index) => {
                     return (
-                      <div>{annotationType} <button onClick={(event) => {this.handleAnnotationTypeDelete(event, index);}}> - </button></div>
+                      <div>{ANNOTATION_TYPE_NAMES[annotationType]} <button onClick={(event) => {this.handleAnnotationTypeDelete(event, index);}}> - </button></div>
                     );
                   })}
                   {this.props.annotationTypes.length < allAnnotationTypes.length &&
@@ -136,7 +142,7 @@ export class DeidentificationConfigForm extends React.Component {
                       <option value="">...</option>
                       {allAnnotationTypes.filter(annotationType => !this.props.annotationTypes.includes(annotationType)).map((annotationType) => {
                         return (
-                          <option value={annotationType}>{annotationType}</option>
+                          <option value={annotationType}>{ANNOTATION_TYPE_NAMES[annotationType]}</option>
                         );
                       })}
                     </select>
