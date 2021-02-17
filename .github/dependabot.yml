@@ -6,7 +6,7 @@ updates:
     schedule:
       interval: "monthly"
     target-branch: "main"
-    
+
   - package-ecosystem: "docker"
     directory: "/client"
     schedule:
@@ -15,6 +15,12 @@ updates:
 
   - package-ecosystem: "npm"
     directory: "/"
+    schedule:
+      interval: "monthly"
+    target-branch: "main"
+
+  - package-ecosystem: "npm"
+    directory: "/client"
     schedule:
       interval: "monthly"
     target-branch: "main"
