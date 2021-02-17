@@ -57,7 +57,7 @@ td {
   padding: 3px;
 }
 
-input[type="text"] {
+input[type="text"].masking-char {
   width: 10px;
   text-align: center;
 }

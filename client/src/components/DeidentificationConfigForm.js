@@ -114,7 +114,7 @@ export class DeidentificationConfigForm extends React.Component {
                 </select>
                 &nbsp;
                 {this.getStrategy() === "maskingCharConfig" &&
-                  <input type="text" maxLength={1} value={this.props.maskingCharConfig.maskingChar} onChange={this.handleMaskingCharChange} />
+                  <input type="text" maxLength={1} value={this.props.maskingCharConfig.maskingChar} onChange={this.handleMaskingCharChange} className="masking-char"/>
                 }
               </td>
             </tr>
