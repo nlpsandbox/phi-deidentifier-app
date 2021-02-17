@@ -3,8 +3,6 @@
   font-family: monospace;
   background-color: grey;
   border-radius: 5px;
-  min-width: 50%;
-  max-width: 600px;
   margin-left: auto;
   margin-right: auto;
   margin-top: 10px;
@@ -59,7 +57,7 @@ td {
   padding: 3px;
 }
 
-input[type="text"] {
+input[type="text"].masking-char {
   width: 10px;
   text-align: center;
 }

@@ -9,6 +9,7 @@ import { encodeString, decodeString } from '../stringSmuggler';
 import { AppBar, Box, IconButton, Paper, Toolbar, Grid, Typography, TextField } from '@material-ui/core';
 import InfoIcon from '@material-ui/icons/Info';
 import { InfoDialog } from './InfoDialog';
+import { AnnotationView } from './AnnotationView';
 import Config from '../config';
 
 const config = new Config()
@@ -49,6 +50,7 @@ class App extends React.Component {
 
     this.state = {
       deidentifiedNoteText: deidentificationStates.EMPTY,
+      deidentifiedAnnotations: deidentificationStates.EMPTY,
       deidentifyRequest: deidentifyRequest,
       showInfo: showInfo
     };
@@ -72,12 +74,14 @@ class App extends React.Component {
     deidentifiedNotesApi.createDeidentifiedNotes({deidentifyRequest: deidentifyRequest})
       .then((deidentifyResponse) => {
         this.setState({
-          deidentifiedNoteText: deidentifyResponse.deidentifiedNote.text
+          deidentifiedNoteText: deidentifyResponse.deidentifiedNote.text,
+          deidentifiedAnnotations: deidentifyResponse.deidentifiedAnnotations
         });
       })
       .catch(() => {
         this.setState({
-          deidentifiedNoteText: deidentificationStates.ERROR
+          deidentifiedNoteText: deidentificationStates.ERROR,
+          deidentifiedAnnotations: deidentificationStates.ERROR
         });
       });
   }
@@ -163,10 +167,10 @@ class App extends React.Component {
   }
 
   render() {
-    const leftColumn = <Grid align="center" item xs={6} md={4} container direction="column" spacing={2}>
+    const leftColumn = <Grid align="center" item sm={6} lg={4} container direction="column" spacing={2}>
       <Grid item>
         <Box padding={2}>
-          <Typography variant="h5" style={{ fontWeight: "bold" }}>Input note:</Typography>
+          <Typography variant="h5" style={{ fontWeight: "bold" }}>Input Note</Typography>
         </Box>
       </Grid>
       <Grid item>
@@ -183,6 +187,11 @@ class App extends React.Component {
       </Grid>
       <Grid item>
         <button className="deidentify-button" onClick={this.deidentifyNote}>De-identify Note</button>
+      </Grid>
+      <Grid item>
+        <Box padding={2}>
+          <Typography variant="h5" style={{ fontWeight: "bold" }}>Deidentification Steps</Typography>
+        </Box>
       </Grid>
       {
         this.state.deidentifyRequest.deidentificationSteps.map((deidStep, index) => 
@@ -202,14 +211,22 @@ class App extends React.Component {
       </Grid>
     </Grid>
 
-    const rightColumn = <Grid align="center" item xs={6} md={4} container spacing={2} direction="column">
+    const rightColumn = <Grid align="center" item sm={6} lg={4} container spacing={2} direction="column">
       <Grid item>
         <Box padding={2}>
-          <Typography variant="h5" style={{ fontWeight: "bold" }}>De-identified note:</Typography>
+          <Typography variant="h5" style={{ fontWeight: "bold" }}>De-identified Note</Typography>
         </Box>
       </Grid>
       <Grid item>
         <DeidentifiedText text={this.state.deidentifiedNoteText} />
+      </Grid>
+      <Grid item>
+        <Box padding={2}>
+          <Typography variant="h5" style={{ fontWeight: "bold" }}>Annotations</Typography>
+        </Box>
+      </Grid>
+      <Grid item>
+        <AnnotationView annotations={this.state.deidentifiedAnnotations} />
       </Grid>
     </Grid>
 
@@ -222,11 +239,11 @@ class App extends React.Component {
         </Toolbar>
       </AppBar>
       <Grid container spacing={1}>
-        <Grid item xs={0} md={1} />
+        <Grid item sm={0} lg={1} />
         {leftColumn}
-        <Grid item xs={0} md={2} />
+        <Grid item sm={0} lg={2} />
         {rightColumn}
-        <Grid item xs={0} md={1} />
+        <Grid item sm={0} lg={1} />
       </Grid>
       <InfoDialog
         open={this.state.showInfo}
