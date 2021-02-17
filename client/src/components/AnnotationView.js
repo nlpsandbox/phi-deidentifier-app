@@ -24,10 +24,11 @@ export function AnnotationView(props) {
 
   const columns = [
     {field: 'id', headerName: "ID", hide: true},
-    {field: 'type', headerName: "Type", width: 150},
-    {field: 'text', headerName: "Text", width: 200},
-    {field: 'start', headerName: "Start", width: 100},
-    {field: 'length', headerName: "Length", width: 100}
+    {field: 'type', headerName: "Type", width: 125},
+    {field: 'text', headerName: "Text", width: 130},
+    {field: 'start', headerName: "Start", width: 90},
+    {field: 'length', headerName: "Length", width: 100},
+    {field: 'confidence', headerName: "Confidence", width: 130}
   ]
 
   return (
