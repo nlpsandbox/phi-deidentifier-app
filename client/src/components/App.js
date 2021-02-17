@@ -188,6 +188,11 @@ class App extends React.Component {
       <Grid item>
         <button className="deidentify-button" onClick={this.deidentifyNote}>De-identify Note</button>
       </Grid>
+      <Grid item>
+        <Box padding={2}>
+          <Typography variant="h5" style={{ fontWeight: "bold" }}>Deidentification Steps:</Typography>
+        </Box>
+      </Grid>
       {
         this.state.deidentifyRequest.deidentificationSteps.map((deidStep, index) => 
           <Grid item key={deidStep.key}>
@@ -214,6 +219,11 @@ class App extends React.Component {
       </Grid>
       <Grid item>
         <DeidentifiedText text={this.state.deidentifiedNoteText} />
+      </Grid>
+      <Grid item>
+        <Box padding={2}>
+          <Typography variant="h5" style={{ fontWeight: "bold" }}>Annotations:</Typography>
+        </Box>
       </Grid>
       <Grid item>
         <AnnotationView annotations={this.state.deidentifiedAnnotations} />
