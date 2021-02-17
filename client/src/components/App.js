@@ -217,7 +217,7 @@ class App extends React.Component {
     <div className="App">
       <AppBar style={{ backgroundColor: "grey" }} position="static">
         <Toolbar>
-          <Typography variant="h4" style={{ flex: 1 }} >NLP Sandbox PHI De-identifier</Typography>
+          <Typography variant="h4" style={{ flex: 1 }} >NLP Sandbox PHI Deidentifier</Typography>
           <IconButton onClick={() => {this.setState({showInfo: true})}}><InfoIcon style={{ color: "white" }} /></IconButton>
         </Toolbar>
       </AppBar>
