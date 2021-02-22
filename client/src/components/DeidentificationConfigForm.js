@@ -1,7 +1,7 @@
-import './DeidentificationConfigForm.css'
 import React from 'react';
 import { DeidentificationStepAnnotationTypesEnum } from '../models';
-import { Collapse, Paper } from '@material-ui/core';
+import { Collapse, Paper, Table, TableRow, TableCell, AppBar, Toolbar, Typography, IconButton } from '@material-ui/core';
+import CloseIcon from '@material-ui/icons/Close';
 
 const DEIDENTIFICATION_STRATEGIES = {
   "maskingCharConfig": "Masking Character",
@@ -94,19 +94,22 @@ export class DeidentificationConfigForm extends React.Component {
 
   render = () => {
     const allAnnotationTypes = Object.values(DeidentificationStepAnnotationTypesEnum)
+    const borderRadius = 10
     return (
       <Collapse in={this.state.expand}>
-        <Paper style={{ backgroundColor: "grey", color: "white", fontFamily: "monospace", fontSize: "16px" }}>
-          <div className="deid-config-form-bar">
-            <div className="deid-config-header">De-id Step #{this.props.index + 1}</div>
-            <div className="deid-config-remove" onClick={this.handleDelete}></div>
-          </div>
-          <table>
-            <tr>
-              <td>
+        <Paper style={{ borderRadius: borderRadius }}>
+          <AppBar style={{ backgroundColor: "grey", borderTopRightRadius: borderRadius, borderTopLeftRadius: borderRadius }} position="static">
+            <Toolbar>
+              <Typography variant="h6" style={{ textAlign: "left", flex: 1 }}>Deidentification Step #{this.props.index + 1}</Typography>
+              <IconButton onClick={this.handleDelete}><CloseIcon style={{ color: "white" }} /></IconButton>
+            </Toolbar>
+          </AppBar>
+          <Table style={{ borderBottomLeftRadius: borderRadius, borderBottomRightRadius: borderRadius }}>
+            <TableRow>
+              <TableCell>
                 Obfuscation method
-              </td>
-              <td>
+              </TableCell>
+              <TableCell>
                 <select onChange={this.handleStrategyChange} value={this.getStrategy()}>
                   {Object.keys(DEIDENTIFICATION_STRATEGIES).map((strategy) => {
                     return <option value={strategy} key={strategy}>{DEIDENTIFICATION_STRATEGIES[strategy]}</option>;
@@ -116,21 +119,21 @@ export class DeidentificationConfigForm extends React.Component {
                 {this.getStrategy() === "maskingCharConfig" &&
                   <input type="text" maxLength={1} value={this.props.maskingCharConfig.maskingChar} onChange={this.handleMaskingCharChange} className="masking-char"/>
                 }
-              </td>
-            </tr>
-            <tr>
-              <td>
+              </TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell>
                 Confidence threshold
-              </td>
-              <td>
+              </TableCell>
+              <TableCell>
                 <input type="number" onChange={this.handleConfidenceThresholdChange} name="confidenceThreshold" value={this.props.confidenceThreshold} />
-              </td>
-            </tr>
-            <tr>
-            <td>
+              </TableCell>
+            </TableRow>
+            <TableRow style={{ borderRadius: borderRadius }}>
+            <TableCell style={{ borderRadius: borderRadius }}>
               Annotation types
-            </td>
-            <td>
+            </TableCell>
+            <TableCell style={{ borderRadius: borderRadius }}>
                 <div>
                   {this.props.annotationTypes.map((annotationType, index) => {
                     return (
@@ -148,9 +151,9 @@ export class DeidentificationConfigForm extends React.Component {
                     </select>
                   }
                 </div>
-              </td>
-            </tr>
-          </table>
+              </TableCell>
+            </TableRow>
+          </Table>
         </Paper>
       </Collapse>
     );
