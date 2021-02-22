@@ -99,9 +99,9 @@ export class DeidentificationConfigForm extends React.Component {
       <Collapse in={this.state.expand}>
         <Paper style={{ borderRadius: borderRadius }}>
           <AppBar style={{ backgroundColor: "grey", borderTopRightRadius: borderRadius, borderTopLeftRadius: borderRadius }} position="static">
-            <Toolbar>
+            <Toolbar variant="dense">
               <Typography variant="h6" style={{ textAlign: "left", flex: 1 }}>Deidentification Step #{this.props.index + 1}</Typography>
-              <IconButton onClick={this.handleDelete}><CloseIcon style={{ color: "white" }} /></IconButton>
+              <IconButton onClick={this.handleDelete} size="small"><CloseIcon style={{ color: "white" }} /></IconButton>
             </Toolbar>
           </AppBar>
           <Table style={{ borderBottomLeftRadius: borderRadius, borderBottomRightRadius: borderRadius }}>
