@@ -1,6 +1,6 @@
 import React from 'react';
 import { DeidentificationStepAnnotationTypesEnum } from '../models';
-import { Collapse, Paper, Table, TableRow, TableCell, AppBar, Toolbar, Typography, IconButton } from '@material-ui/core';
+import { Collapse, Paper, Table, TableRow, TableCell, AppBar, Toolbar, Typography, IconButton, TextField } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
 
 const DEIDENTIFICATION_STRATEGIES = {
@@ -117,7 +117,14 @@ export class DeidentificationConfigForm extends React.Component {
                 </select>
                 &nbsp;
                 {this.getStrategy() === "maskingCharConfig" &&
-                  <input type="text" maxLength={1} value={this.props.maskingCharConfig.maskingChar} onChange={this.handleMaskingCharChange} className="masking-char"/>
+                  <TextField
+                    type="text"
+                    variant="outlined"
+                    size="small"
+                    inputProps={{ maxLength: 1, style: { width: 10 } }}
+                    value={this.props.maskingCharConfig.maskingChar}
+                    onChange={this.handleMaskingCharChange}
+                  />
                 }
               </TableCell>
             </TableRow>
