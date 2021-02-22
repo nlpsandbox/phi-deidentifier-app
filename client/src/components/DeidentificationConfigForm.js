@@ -51,9 +51,15 @@ export class DeidentificationConfigForm extends React.Component {
 
   handleMaskingCharChange = (event) => {
     const maskingChar = event.target.value;
-    this.updateDeidStep({
-      maskingCharConfig: { maskingChar: maskingChar }
-    });
+    if (maskingChar) {
+      this.updateDeidStep({
+        maskingCharConfig: { maskingChar: maskingChar }
+      });
+    } else {
+      this.updateDeidStep({
+        maskingCharConfig: {}
+      });
+    }
   }
 
   handleConfidenceThresholdChange = (event) => {
