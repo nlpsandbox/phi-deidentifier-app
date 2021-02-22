@@ -137,10 +137,10 @@ export class DeidentificationConfigForm extends React.Component {
               </TableCell>
             </TableRow>
             <TableRow style={{ borderRadius: borderRadius }}>
-            <TableCell style={{ borderRadius: borderRadius }}>
-              Annotation types
-            </TableCell>
-            <TableCell style={{ borderRadius: borderRadius }}>
+              <TableCell style={{ borderRadius: borderRadius }}>
+                Annotation types
+              </TableCell>
+              <TableCell style={{ borderRadius: borderRadius }}>
                 <div>
                   {this.props.annotationTypes.map((annotationType, index) => {
                     return (
