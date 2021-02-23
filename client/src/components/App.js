@@ -238,7 +238,7 @@ class App extends React.Component {
     const rightColumn = <Grid align="center" item sm={6} lg={4} container spacing={2} direction="column">
       <Grid item>
         <Box padding={2}>
-          <Typography variant="h5" style={{ fontWeight: "bold" }}>Deidentified Note</Typography>
+          <Typography variant="h5" style={{ fontWeight: "bold" }}>De-identified Note</Typography>
         </Box>
       </Grid>
       <Grid item>

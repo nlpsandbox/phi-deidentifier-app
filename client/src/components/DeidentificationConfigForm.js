@@ -105,10 +105,10 @@ export class DeidentificationConfigForm extends React.Component {
     const borderRadius = 10
     return (
       <Collapse in={this.state.expand}>
-        <Paper style={{ borderRadius: borderRadius, overflow: "hidden" }} elevation={5}>
-          <AppBar style={{ backgroundColor: "grey" }} position="static">
+        <Paper style={{ borderRadius: borderRadius, overflow: "hidden" }}>
+          <AppBar style={{ backgroundColor: "grey" }} position="static" elevation={0}>
             <Toolbar variant="dense">
-              <Typography variant="h6" style={{ textAlign: "left", flex: 1 }}>Deidentification Step #{this.props.index + 1}</Typography>
+              <Typography variant="h6" style={{ textAlign: "left", flex: 1 }}>De-identification Step #{this.props.index + 1}</Typography>
               <IconButton onClick={this.handleDelete} size="small"><CloseIcon style={{ color: "white" }} /></IconButton>
             </Toolbar>
           </AppBar>
