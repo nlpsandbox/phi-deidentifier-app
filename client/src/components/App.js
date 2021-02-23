@@ -1,22 +1,40 @@
-import './App.css';
+import React from 'react';
+import Config from '../config';
+
 import { DeidentifiedNoteApi, ToolApi } from '../apis';
 import { DeidentifyRequestFromJSON } from '../models';
-import React from 'react';
 import { Configuration } from '../runtime';
-import { DeidentifiedText, deidentificationStates } from './DeidentifiedText';
-import { DeidentificationConfigForm } from './DeidentificationConfigForm';
 import { encodeString, decodeString } from '../stringSmuggler';
+
+import { withStyles } from '@material-ui/core/styles';
 import { AppBar, Box, Button, IconButton, Paper, Toolbar, Grid, Typography, TextField, Fab } from '@material-ui/core';
+
 import InfoIcon from '@material-ui/icons/Info';
 import AddIcon from '@material-ui/icons/Add';
+
+import { DeidentifiedText, deidentificationStates } from './DeidentifiedText';
 import { InfoDialog } from './InfoDialog';
+import { DeidentificationConfigForm } from './DeidentificationConfigForm';
 import { AnnotationView } from './AnnotationView';
-import Config from '../config';
 
 const config = new Config()
 const apiConfiguration = new Configuration({basePath: config.serverApiUrl()});
 const deidentifiedNotesApi = new DeidentifiedNoteApi(apiConfiguration);
 const toolApi = new ToolApi(apiConfiguration);
+
+const styles = (theme) => {
+  return {
+    root: {
+      backgroundColor: "#282c34",
+      minHeight: "100vh",
+      justifyContent: "center",
+      color: "white",
+      overflow: "auto",
+      padding: "20px",
+      paddingBottom: "50px"
+    }
+  };
+}
 
 class App extends React.Component {
   constructor(props) {
@@ -231,8 +249,10 @@ class App extends React.Component {
       </Grid>
     </Grid>
 
+    const { classes } = this.props;
+
     return (
-    <div className="App">
+    <div className={classes.root}>
       <AppBar style={{ backgroundColor: "grey" }} position="static">
         <Toolbar>
           <Typography variant="h4" style={{ flex: 1 }} >NLP Sandbox PHI Deidentifier</Typography>
@@ -256,4 +276,4 @@ class App extends React.Component {
   }
 }
 
-export default App;
+export default withStyles(styles)(App);
