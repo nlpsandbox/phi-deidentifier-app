@@ -6,8 +6,9 @@ import { Configuration } from '../runtime';
 import { DeidentifiedText, deidentificationStates } from './DeidentifiedText';
 import { DeidentificationConfigForm } from './DeidentificationConfigForm';
 import { encodeString, decodeString } from '../stringSmuggler';
-import { AppBar, Box, IconButton, Paper, Toolbar, Grid, Typography, TextField } from '@material-ui/core';
+import { AppBar, Box, Button, IconButton, Paper, Toolbar, Grid, Typography, TextField, Fab } from '@material-ui/core';
 import InfoIcon from '@material-ui/icons/Info';
+import AddIcon from '@material-ui/icons/Add';
 import { InfoDialog } from './InfoDialog';
 import { AnnotationView } from './AnnotationView';
 import Config from '../config';
@@ -186,7 +187,7 @@ class App extends React.Component {
         </Paper>
       </Grid>
       <Grid item>
-        <button className="deidentify-button" onClick={this.deidentifyNote}>De-identify Note</button>
+        <Button variant="contained" size="large" color="primary" onClick={this.deidentifyNote}>Deidentify Note</Button>
       </Grid>
       <Grid item>
         <Box padding={2}>
@@ -207,14 +208,14 @@ class App extends React.Component {
         )
       }
       <Grid item>
-        <div className="deid-config-add" onClick={this.addDeidStep}>&#x002B;</div>
+        <Fab size="small" onClick={this.addDeidStep}><AddIcon /></Fab>
       </Grid>
     </Grid>
 
     const rightColumn = <Grid align="center" item sm={6} lg={4} container spacing={2} direction="column">
       <Grid item>
         <Box padding={2}>
-          <Typography variant="h5" style={{ fontWeight: "bold" }}>De-identified Note</Typography>
+          <Typography variant="h5" style={{ fontWeight: "bold" }}>Deidentified Note</Typography>
         </Box>
       </Grid>
       <Grid item>
