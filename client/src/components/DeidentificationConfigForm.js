@@ -1,7 +1,9 @@
-import './DeidentificationConfigForm.css'
 import React from 'react';
 import { DeidentificationStepAnnotationTypesEnum } from '../models';
-import { Collapse, Paper } from '@material-ui/core';
+import { Collapse, Paper, Table, TableRow, TableCell, AppBar, Toolbar,
+  Typography, IconButton, TextField, Select, MenuItem} from '@material-ui/core';
+import CloseIcon from '@material-ui/icons/Close';
+import RemoveCircleOutlineIcon from '@material-ui/icons/RemoveCircleOutline';
 
 const DEIDENTIFICATION_STRATEGIES = {
   "maskingCharConfig": "Masking Character",
@@ -100,63 +102,79 @@ export class DeidentificationConfigForm extends React.Component {
 
   render = () => {
     const allAnnotationTypes = Object.values(DeidentificationStepAnnotationTypesEnum)
+    const borderRadius = 10
     return (
       <Collapse in={this.state.expand}>
-        <Paper style={{ backgroundColor: "grey", color: "white", fontFamily: "monospace", fontSize: "16px" }}>
-          <div className="deid-config-form-bar">
-            <div className="deid-config-header">De-id Step #{this.props.index + 1}</div>
-            <div className="deid-config-remove" onClick={this.handleDelete}></div>
-          </div>
-          <table>
-            <tr>
-              <td>
+        <Paper style={{ borderRadius: borderRadius, overflow: "hidden" }}>
+          <AppBar style={{ backgroundColor: "grey" }} position="static" elevation={0}>
+            <Toolbar variant="dense">
+              <Typography variant="h6" style={{ textAlign: "left", flex: 1 }}>De-identification Step #{this.props.index + 1}</Typography>
+              <IconButton onClick={this.handleDelete} size="small"><CloseIcon style={{ color: "white" }} /></IconButton>
+            </Toolbar>
+          </AppBar>
+          <Table>
+            <TableRow>
+              <TableCell variant="head">
                 Obfuscation method
-              </td>
-              <td>
-                <select onChange={this.handleStrategyChange} value={this.getStrategy()}>
+              </TableCell>
+              <TableCell>
+                <Select onChange={this.handleStrategyChange} value={this.getStrategy()}>
                   {Object.keys(DEIDENTIFICATION_STRATEGIES).map((strategy) => {
-                    return <option value={strategy} key={strategy}>{DEIDENTIFICATION_STRATEGIES[strategy]}</option>;
+                    return <MenuItem value={strategy} key={strategy}>{DEIDENTIFICATION_STRATEGIES[strategy]}</MenuItem>;
                   })}
-                </select>
+                </Select>
+                &nbsp;
                 &nbsp;
                 {this.getStrategy() === "maskingCharConfig" &&
-                  <input type="text" maxLength={1} value={this.props.maskingCharConfig.maskingChar} onChange={this.handleMaskingCharChange} className="masking-char"/>
+                  <TextField
+                    type="text"
+                    variant="outlined"
+                    size="small"
+                    style={{ flex: 1 }}
+                    inputProps={{ maxLength: 1, style: { width: 10 } }}
+                    value={this.props.maskingCharConfig.maskingChar}
+                    onChange={this.handleMaskingCharChange}
+                  />
                 }
-              </td>
-            </tr>
-            <tr>
-              <td>
+              </TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell variant="head">
                 Confidence threshold
-              </td>
-              <td>
-                <input type="number" onChange={this.handleConfidenceThresholdChange} name="confidenceThreshold" value={this.props.confidenceThreshold} />
-              </td>
-            </tr>
-            <tr>
-            <td>
-              Annotation types
-            </td>
-            <td>
-                <div>
-                  {this.props.annotationTypes.map((annotationType, index) => {
-                    return (
-                      <div>{ANNOTATION_TYPE_NAMES[annotationType]} <button onClick={(event) => {this.handleAnnotationTypeDelete(event, index);}}> - </button></div>
-                    );
-                  })}
-                  {this.props.annotationTypes.length < allAnnotationTypes.length &&
-                    <select value="" onChange={this.handleAnnotationTypeAdd}>
-                      <option value="">...</option>
-                      {allAnnotationTypes.filter(annotationType => !this.props.annotationTypes.includes(annotationType)).map((annotationType) => {
-                        return (
-                          <option value={annotationType}>{ANNOTATION_TYPE_NAMES[annotationType]}</option>
-                        );
-                      })}
-                    </select>
-                  }
-                </div>
-              </td>
-            </tr>
-          </table>
+              </TableCell>
+              <TableCell>
+                <TextField
+                  type="number"
+                  onChange={this.handleConfidenceThresholdChange}
+                  inputProps={{ min: 0, max: 100 }}
+                  name="confidenceThreshold"
+                  value={this.props.confidenceThreshold}
+                />
+              </TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell variant="head">
+                Annotation types
+              </TableCell>
+              <TableCell>
+                {this.props.annotationTypes.map((annotationType, index) => {
+                  return (
+                    <Typography key={annotationType}>{ANNOTATION_TYPE_NAMES[annotationType]}<IconButton size="small" onClick={(event) => {this.handleAnnotationTypeDelete(event, index);}}> <RemoveCircleOutlineIcon /></IconButton></Typography>
+                  );
+                })}
+                {this.props.annotationTypes.length < allAnnotationTypes.length &&
+                  <Select displayEmpty value="" onChange={this.handleAnnotationTypeAdd}>
+                    <MenuItem value=""><i>click to add</i></MenuItem>
+                    {allAnnotationTypes.filter(annotationType => !this.props.annotationTypes.includes(annotationType)).map((annotationType) => {
+                      return (
+                        <MenuItem value={annotationType}>{ANNOTATION_TYPE_NAMES[annotationType]}</MenuItem>
+                      );
+                    })}
+                  </Select>
+                }
+              </TableCell>
+            </TableRow>
+          </Table>
         </Paper>
       </Collapse>
     );
