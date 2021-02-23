@@ -1,6 +1,7 @@
 import React from 'react';
 import { DeidentificationStepAnnotationTypesEnum } from '../models';
-import { Collapse, Paper, Table, TableRow, TableCell, AppBar, Toolbar, Typography, IconButton, TextField } from '@material-ui/core';
+import { Collapse, Paper, Table, TableRow, TableCell, AppBar, Toolbar,
+  Typography, IconButton, TextField, Select, MenuItem} from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
 
 const DEIDENTIFICATION_STRATEGIES = {
@@ -106,15 +107,15 @@ export class DeidentificationConfigForm extends React.Component {
           </AppBar>
           <Table>
             <TableRow>
-              <TableCell>
+              <TableCell variant="head">
                 Obfuscation method
               </TableCell>
               <TableCell>
-                <select onChange={this.handleStrategyChange} value={this.getStrategy()}>
+                <Select onChange={this.handleStrategyChange} value={this.getStrategy()}>
                   {Object.keys(DEIDENTIFICATION_STRATEGIES).map((strategy) => {
-                    return <option value={strategy} key={strategy}>{DEIDENTIFICATION_STRATEGIES[strategy]}</option>;
+                    return <MenuItem value={strategy} key={strategy}>{DEIDENTIFICATION_STRATEGIES[strategy]}</MenuItem>;
                   })}
-                </select>
+                </Select>
                 &nbsp;
                 {this.getStrategy() === "maskingCharConfig" &&
                   <TextField
@@ -129,7 +130,7 @@ export class DeidentificationConfigForm extends React.Component {
               </TableCell>
             </TableRow>
             <TableRow>
-              <TableCell>
+              <TableCell variant="head">
                 Confidence threshold
               </TableCell>
               <TableCell>
@@ -137,7 +138,7 @@ export class DeidentificationConfigForm extends React.Component {
               </TableCell>
             </TableRow>
             <TableRow>
-              <TableCell>
+              <TableCell variant="head">
                 Annotation types
               </TableCell>
               <TableCell>
@@ -147,14 +148,14 @@ export class DeidentificationConfigForm extends React.Component {
                   );
                 })}
                 {this.props.annotationTypes.length < allAnnotationTypes.length &&
-                  <select value="" onChange={this.handleAnnotationTypeAdd}>
-                    <option value="">...</option>
+                  <Select value="" onChange={this.handleAnnotationTypeAdd}>
+                    <MenuItem value="">...</MenuItem>
                     {allAnnotationTypes.filter(annotationType => !this.props.annotationTypes.includes(annotationType)).map((annotationType) => {
                       return (
-                        <option value={annotationType}>{ANNOTATION_TYPE_NAMES[annotationType]}</option>
+                        <MenuItem value={annotationType}>{ANNOTATION_TYPE_NAMES[annotationType]}</MenuItem>
                       );
                     })}
-                  </select>
+                  </Select>
                 }
               </TableCell>
             </TableRow>
