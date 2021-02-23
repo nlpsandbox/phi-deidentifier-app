@@ -32,6 +32,9 @@ const styles = (theme) => {
       overflow: "auto",
       padding: "20px",
       paddingBottom: "50px"
+    },
+    deidButton: {
+      backgroundColor: "#ADD8E6"
     }
   };
 }
@@ -186,6 +189,8 @@ class App extends React.Component {
   }
 
   render() {
+    const { classes } = this.props;
+
     const leftColumn = <Grid align="center" item sm={6} lg={4} container direction="column" spacing={2}>
       <Grid item>
         <Box padding={2}>
@@ -205,7 +210,7 @@ class App extends React.Component {
         </Paper>
       </Grid>
       <Grid item>
-        <Button variant="contained" size="large" color="primary" onClick={this.deidentifyNote}>Deidentify Note</Button>
+        <Button variant="contained" size="large" className={classes.deidButton} onClick={this.deidentifyNote}>Deidentify Note</Button>
       </Grid>
       <Grid item>
         <Box padding={2}>
@@ -248,8 +253,6 @@ class App extends React.Component {
         <AnnotationView annotations={this.state.deidentifiedAnnotations} />
       </Grid>
     </Grid>
-
-    const { classes } = this.props;
 
     return (
     <div className={classes.root}>
