@@ -97,14 +97,14 @@ export class DeidentificationConfigForm extends React.Component {
     const borderRadius = 10
     return (
       <Collapse in={this.state.expand}>
-        <Paper style={{ borderRadius: borderRadius }}>
-          <AppBar style={{ backgroundColor: "grey", borderTopRightRadius: borderRadius, borderTopLeftRadius: borderRadius }} position="static">
+        <Paper style={{ borderRadius: borderRadius, overflow: "hidden" }} elevation={5}>
+          <AppBar style={{ backgroundColor: "grey" }} position="static">
             <Toolbar variant="dense">
               <Typography variant="h6" style={{ textAlign: "left", flex: 1 }}>Deidentification Step #{this.props.index + 1}</Typography>
               <IconButton onClick={this.handleDelete} size="small"><CloseIcon style={{ color: "white" }} /></IconButton>
             </Toolbar>
           </AppBar>
-          <Table style={{ borderBottomLeftRadius: borderRadius, borderBottomRightRadius: borderRadius }}>
+          <Table>
             <TableRow>
               <TableCell>
                 Obfuscation method
@@ -136,28 +136,26 @@ export class DeidentificationConfigForm extends React.Component {
                 <input type="number" onChange={this.handleConfidenceThresholdChange} name="confidenceThreshold" value={this.props.confidenceThreshold} />
               </TableCell>
             </TableRow>
-            <TableRow style={{ borderRadius: borderRadius }}>
-              <TableCell style={{ borderRadius: borderRadius }}>
+            <TableRow>
+              <TableCell>
                 Annotation types
               </TableCell>
-              <TableCell style={{ borderRadius: borderRadius }}>
-                <div>
-                  {this.props.annotationTypes.map((annotationType, index) => {
-                    return (
-                      <div>{ANNOTATION_TYPE_NAMES[annotationType]} <button onClick={(event) => {this.handleAnnotationTypeDelete(event, index);}}> - </button></div>
-                    );
-                  })}
-                  {this.props.annotationTypes.length < allAnnotationTypes.length &&
-                    <select value="" onChange={this.handleAnnotationTypeAdd}>
-                      <option value="">...</option>
-                      {allAnnotationTypes.filter(annotationType => !this.props.annotationTypes.includes(annotationType)).map((annotationType) => {
-                        return (
-                          <option value={annotationType}>{ANNOTATION_TYPE_NAMES[annotationType]}</option>
-                        );
-                      })}
-                    </select>
-                  }
-                </div>
+              <TableCell>
+                {this.props.annotationTypes.map((annotationType, index) => {
+                  return (
+                    <div>{ANNOTATION_TYPE_NAMES[annotationType]} <button onClick={(event) => {this.handleAnnotationTypeDelete(event, index);}}> - </button></div>
+                  );
+                })}
+                {this.props.annotationTypes.length < allAnnotationTypes.length &&
+                  <select value="" onChange={this.handleAnnotationTypeAdd}>
+                    <option value="">...</option>
+                    {allAnnotationTypes.filter(annotationType => !this.props.annotationTypes.includes(annotationType)).map((annotationType) => {
+                      return (
+                        <option value={annotationType}>{ANNOTATION_TYPE_NAMES[annotationType]}</option>
+                      );
+                    })}
+                  </select>
+                }
               </TableCell>
             </TableRow>
           </Table>
