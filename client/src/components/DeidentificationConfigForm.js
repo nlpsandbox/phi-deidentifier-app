@@ -146,6 +146,7 @@ export class DeidentificationConfigForm extends React.Component {
                 <TextField
                   type="number"
                   onChange={this.handleConfidenceThresholdChange}
+                  inputProps={{ min: 0, max: 100 }}
                   name="confidenceThreshold"
                   value={this.props.confidenceThreshold}
                 />
