@@ -26,8 +26,21 @@ const StyledTableRow = withStyles((theme) => ({
   },
 }))(TableRow);
 
+function ToolDependencyRow(props) {
+  return (
+    <StyledTableRow maxHeight="100px">
+      <StyledTableCell>{ props.toolDependency.toolType }</StyledTableCell>
+      <StyledTableCell><Link href={ props.toolDependency.url }>{ props.toolDependency.name }</Link></StyledTableCell>
+      <StyledTableCell>{ props.toolDependency.version }</StyledTableCell>
+      <StyledTableCell><Link href={ "mailto:"+props.toolDependency.authorEmail }>{ props.toolDependency.author }</Link></StyledTableCell>
+      <StyledTableCell>{ props.toolDependency.repository }</StyledTableCell>
+      <StyledTableCell>{ props.toolDependency.license }</StyledTableCell>
+      <StyledTableCell ><Box style={{ maxHeight: "100%", overflow: "auto" }}>{ props.toolDependency.description }</Box></StyledTableCell>
+    </StyledTableRow>
+  );
+}
+
 function ToolDependenciesTable(props) {
-  let toolDependencies;
   if (props.toolDependencies === toolInfoStates.LOADING) {
     return <Grid item xs={12}><CircularProgress /></Grid>;
   } else if (props.toolDependencies === toolInfoStates.ERROR) {
@@ -47,19 +60,8 @@ function ToolDependenciesTable(props) {
         </StyledTableRow>
       </TableHead>
       <TableBody>
-        {props.toolDependencies.map((toolDependency) => {
-          return (
-            <StyledTableRow maxHeight="100px">
-              <StyledTableCell>{ toolDependency.toolType }</StyledTableCell>
-              <StyledTableCell><Link href={ toolDependency.url }>{ toolDependency.name }</Link></StyledTableCell>
-              <StyledTableCell>{ toolDependency.version }</StyledTableCell>
-              <StyledTableCell><Link href={ "mailto:"+toolDependency.authorEmail }>{ toolDependency.author }</Link></StyledTableCell>
-              <StyledTableCell>{ toolDependency.repository }</StyledTableCell>
-              <StyledTableCell>{ toolDependency.license }</StyledTableCell>
-              <StyledTableCell ><Box style={{ maxHeight: "100%", overflow: "auto" }}>{ toolDependency.description }</Box></StyledTableCell>
-            </StyledTableRow>
-          );
-        })}
+        <ToolDependencyRow toolDependency={props.deidentifierInfo} />
+        {props.toolDependencies.map((toolDependency) => <ToolDependencyRow toolDependency={toolDependency} />)}
       </TableBody>
     </Table>
     </TableContainer>
@@ -120,7 +122,7 @@ export class InfoDialog extends React.Component {
           Sandbox. You can input a clinical note, which will be annotated and
           de-identified using the following annotators:
         </DialogContentText>
-        <ToolDependenciesTable toolDependencies={this.state.toolDependencies} />
+        <ToolDependenciesTable toolDependencies={this.state.toolDependencies} deidentifierInfo={this.state.deidentifierInfo} />
       </React.Fragment>
     }
     return (
