@@ -11,7 +11,7 @@ export class DeidentifiedText extends React.Component {
   render() {
     let content;
     if (this.props.text === deidentificationStates.EMPTY) {
-      content = "Input a note and de-identify it in the text box on the left...";
+      content = "Press 'de-identify note' on the left to remove PHI from the clinical note on the left...";
     } else if (this.props.text === deidentificationStates.LOADING) {
       content = "Loading..."
     } else if (this.props.text === deidentificationStates.ERROR) {
