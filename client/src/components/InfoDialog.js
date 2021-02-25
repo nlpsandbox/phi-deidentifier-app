@@ -115,12 +115,13 @@ export class InfoDialog extends React.Component {
       const toolInfo = this.state.deidentifierInfo;
       content = <React.Fragment>
         <DialogContentText id="scroll-dialog-description" tabIndex={-1}>
-          You are currently using version <b>{ toolInfo.version }</b> of
-          the <Link href={ toolInfo.url }>NLP Sandbox PHI
-          Deidentifier</Link>, a tool made for testing the effectiveness of
-          community-created, open source PHI annotators submitted to NLP
-          Sandbox. You can input a clinical note, which will be annotated and
-          de-identified using the following annotators:
+          You are currently using version the <Link
+          href="https://github.com/nlpsandbox/phi-deidentifier-app">NLP
+          Sandbox PHI Deidentifier Web Client</Link>, a tool made for testing
+          the effectiveness of community-created, open source PHI annotators
+          submitted to NLP Sandbox. You can input a clinical note, which will
+          be annotated and de-identified using the following NLP Sandbox
+          specification-compliant tools:
         </DialogContentText>
         <ToolDependenciesTable toolDependencies={this.state.toolDependencies} deidentifierInfo={this.state.deidentifierInfo} />
       </React.Fragment>
