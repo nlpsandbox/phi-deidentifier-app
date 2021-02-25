@@ -30,6 +30,7 @@ function ToolDependencyRow(props) {
   return (
     <StyledTableRow maxHeight="100px">
       <StyledTableCell>{ props.toolDependency.toolType }</StyledTableCell>
+      <StyledTableCell>{ props.toolDependency.toolApiVersion }</StyledTableCell>
       <StyledTableCell><Link href={ props.toolDependency.url }>{ props.toolDependency.name }</Link></StyledTableCell>
       <StyledTableCell>{ props.toolDependency.version }</StyledTableCell>
       <StyledTableCell><Link href={ "mailto:"+props.toolDependency.authorEmail }>{ props.toolDependency.author }</Link></StyledTableCell>
@@ -51,6 +52,7 @@ function ToolDependenciesTable(props) {
       <TableHead>
         <StyledTableRow>
           <StyledTableCell>Type</StyledTableCell>
+          <StyledTableCell>API Version</StyledTableCell>
           <StyledTableCell>Name</StyledTableCell>
           <StyledTableCell>Version</StyledTableCell>
           <StyledTableCell>Author</StyledTableCell>
