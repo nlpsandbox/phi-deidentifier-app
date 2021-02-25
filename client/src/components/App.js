@@ -60,7 +60,7 @@ class App extends React.Component {
           annotationTypes: ["text_person_name", "text_physical_address", "text_date"]
         }],
         note: {
-          text: "",
+          text: "On 12/26/2020, Ms. Chloe Price met with Dr. Prescott in Seattle.",
           noteType: "0000",  // FIXME: figure out whether and how to get this
           identifier: "0000",
           patientId: "0000"
