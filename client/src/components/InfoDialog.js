@@ -1,5 +1,6 @@
 import React from 'react';
 import { Box, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button, Grid, CircularProgress, Link, Paper, Table, TableHead, TableRow, TableCell, TableBody, TableContainer, withStyles } from '@material-ui/core';
+import Config from '../config';
 
 export const toolInfoStates = {
   LOADING: 1,
@@ -108,6 +109,7 @@ export class InfoDialog extends React.Component {
   }
 
   render = () => {
+    const config = new Config();
     let content;
     if (this.state.deidentifierInfo === toolInfoStates.LOADING) {
       content = <CircularProgress />
@@ -117,8 +119,8 @@ export class InfoDialog extends React.Component {
       const toolInfo = this.state.deidentifierInfo;
       content = <React.Fragment>
         <DialogContentText id="scroll-dialog-description" tabIndex={-1}>
-          You are currently using version the <Link
-          href="https://github.com/nlpsandbox/phi-deidentifier-app">NLP
+          You are currently using version {config.version()} of the <Link
+          href={config.source()}>NLP
           Sandbox PHI Deidentifier Web Client</Link>, a tool made for testing
           the effectiveness of community-created, open source PHI annotators
           submitted to NLP Sandbox. You can input a clinical note, which will
