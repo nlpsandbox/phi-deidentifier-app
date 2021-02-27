@@ -10,13 +10,23 @@ export const deidentificationStates = {
 export class DeidentifiedText extends React.Component {
   render() {
     let content;
-    if (this.props.text === deidentificationStates.EMPTY) {
+    let color;
+    let fontStyle;
+    if (this.props.text === deidentificationStates.EMPTY || this.props.text === "") {
+      fontStyle = "italic"
+      color = "grey";
       content = "Add a clinical note on the left and click on 'Deidentify Note'";
     } else if (this.props.text === deidentificationStates.LOADING) {
+      fontStyle = "italic"
+      color = "grey";
       content = "Loading..."
     } else if (this.props.text === deidentificationStates.ERROR) {
+      fontStyle = "italic"
+      color = "grey";
       content = "API call resulted in error!"
     } else {
+      fontStyle = "normal"
+      color = "black";
       content = this.props.text;
     }
 
@@ -26,10 +36,10 @@ export class DeidentifiedText extends React.Component {
           multiline
           fullWidth
           variant="outlined"
-          InputProps={{ style: {color: "black"} }}
           disabled
           rows={20}
           value={content} 
+          InputProps={{ style: {color: color, fontStyle: fontStyle} }}
         />
       </Paper>
     );
