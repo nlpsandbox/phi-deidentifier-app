@@ -123,8 +123,8 @@ export class InfoDialog extends React.Component {
           href={config.source()}>NLP
           Sandbox PHI Deidentifier Web Client</Link>, a tool made for testing
           the effectiveness of community-created, open source PHI annotators
-          submitted to NLP Sandbox. You can input a clinical note, which will
-          be annotated and de-identified using the following NLP Sandbox
+          submitted to the NLP Sandbox. You can input a clinical note, which
+          will be annotated and de-identified using the following NLP Sandbox
           specification-compliant tools:
         </DialogContentText>
         <ToolDependenciesTable toolDependencies={this.state.toolDependencies} deidentifierInfo={this.state.deidentifierInfo} />
