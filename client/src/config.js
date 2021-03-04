@@ -34,4 +34,14 @@ export default class Config {
     return `${serverUrl}${serverApiPath}`;
   }
 
+  version() {
+    // Version of the web client
+    return '1.0.0';
+  }
+
+  source() {
+    // URL to source of web client
+    return "https://github.com/nlpsandbox/phi-deidentifier-app";
+  }
+
 }
