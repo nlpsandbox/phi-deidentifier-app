@@ -1,5 +1,5 @@
 # pull official node base image
-FROM node:15.11.0-alpine3.12 as build
+FROM node:15.12.0-alpine3.12 as build
 WORKDIR /app
 ENV PATH /app/node_modules/.bin:$PATH
 COPY package.json ./
@@ -10,7 +10,7 @@ COPY . ./
 RUN npm run build
 
 # production environment
-FROM nginx:1.19.7-alpine
+FROM nginx:1.19.9-alpine
 COPY --from=build /app/build /usr/share/nginx/html
 COPY nginx/nginx.conf /etc/nginx/conf.d/default.conf
 
