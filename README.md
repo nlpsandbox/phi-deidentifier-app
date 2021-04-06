@@ -1,4 +1,4 @@
-# NLP Sandbox Deidentifier
+# NLP Sandbox PHI Deidentifier
 
 [![GitHub Release](https://img.shields.io/github/release/nlpsandbox/phi-deidentifier-app.svg?include_prereleases&color=94398d&labelColor=555555&logoColor=ffffff&style=for-the-badge&logo=github)](https://github.com/nlpsandbox/phi-deidentifier-app/releases)
 [![GitHub CI](https://img.shields.io/github/workflow/status/nlpsandbox/phi-deidentifier-app/ci.svg?color=94398d&labelColor=555555&logoColor=ffffff&style=for-the-badge&logo=github)](https://github.com/nlpsandbox/phi-deidentifier-app/actions)
