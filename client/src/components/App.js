@@ -15,7 +15,7 @@ import AddIcon from '@material-ui/icons/Add';
 import {DeidentifiedText, deidentificationStates} from './DeidentifiedText';
 import {InfoDialog} from './InfoDialog';
 import {DeidentificationConfigForm} from './DeidentificationConfigForm';
-import {AnnotationView} from './AnnotationView';
+import AnnotationView from './AnnotationView';
 
 const config = new Config();
 const apiConfiguration = new Configuration({basePath: config.serverApiUrl()});

@@ -1,22 +1,31 @@
-import {Paper, Zoom} from '@material-ui/core';
+import {Paper} from '@material-ui/core';
 import {DataGrid} from '@material-ui/data-grid';
 import React from 'react';
 import {deidentificationStates} from './DeidentifiedText';
+import PropTypes from 'prop-types';
 
-export function AnnotationView(props) {
+function AnnotationView(props) {
   const types = [
     {type: 'text_date', name: 'Date', key: 'textDateAnnotations'},
-    {type: 'text_physical_address', name: 'Physical Address', key: 'textPhysicalAddressAnnotations'},
-    {type: 'text_person_name', name: 'Person Name', key: 'textPersonNameAnnotations'},
+    {type: 'text_physical_address', name: 'Physical Address', key:
+    'textPhysicalAddressAnnotations'},
+    {type: 'text_person_name', name: 'Person Name', key:
+    'textPersonNameAnnotations'},
   ];
 
   let allAnnotations;
-  if (props.annotations === deidentificationStates.EMPTY || props.annotations === deidentificationStates.LOADING || props.annotations === deidentificationStates.ERROR) {
+  if (props.annotations === deidentificationStates.EMPTY ||
+      props.annotations === deidentificationStates.LOADING ||
+      props.annotations === deidentificationStates.ERROR) {
     allAnnotations = [];
   } else {
     allAnnotations = types.map(
       (type) => props.annotations[type.key].map((annotation, index) => {
-        return {type: type.name, id: String(type.type)+'_'+String(index), ...annotation};
+        return {
+          type: type.name,
+          id: String(type.type)+'_'+String(index),
+          ...annotation,
+        };
       }),
     ).flat();
   }
@@ -36,3 +45,9 @@ export function AnnotationView(props) {
     </Paper>
   );
 }
+
+AnnotationView.propTypes = {
+  annotations: PropTypes.any,
+};
+
+export default AnnotationView;
