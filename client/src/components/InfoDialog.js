@@ -1,6 +1,10 @@
 import React from 'react';
-import {Box, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button, Grid, CircularProgress, Link, Paper, Table, TableHead, TableRow, TableCell, TableBody, TableContainer, withStyles} from '@material-ui/core';
+import {Box, Dialog, DialogTitle, DialogContent, DialogContentText,
+  DialogActions, Button, Grid, CircularProgress, Link, Paper, Table,
+  TableHead, TableRow, TableCell, TableBody, TableContainer,
+  withStyles} from '@material-ui/core';
 import Config from '../config';
+import {ToolApi} from '../apis';
 
 export const toolInfoStates = {
   LOADING: 1,
@@ -32,15 +36,27 @@ function ToolDependencyRow(props) {
     <StyledTableRow maxHeight="100px">
       <StyledTableCell>{ props.toolDependency.toolType }</StyledTableCell>
       <StyledTableCell>{ props.toolDependency.toolApiVersion }</StyledTableCell>
-      <StyledTableCell><Link href={ props.toolDependency.url }>{ props.toolDependency.name }</Link></StyledTableCell>
+      <StyledTableCell>
+        <Link href={ props.toolDependency.url }>
+          { props.toolDependency.name }</Link>
+      </StyledTableCell>
       <StyledTableCell>{ props.toolDependency.version }</StyledTableCell>
-      <StyledTableCell><Link href={ 'mailto:'+props.toolDependency.authorEmail }>{ props.toolDependency.author }</Link></StyledTableCell>
+      <StyledTableCell>
+        <Link href={ 'mailto:'+props.toolDependency.authorEmail }>
+          { props.toolDependency.author }</Link>
+      </StyledTableCell>
       <StyledTableCell>{ props.toolDependency.repository }</StyledTableCell>
       <StyledTableCell>{ props.toolDependency.license }</StyledTableCell>
-      <StyledTableCell ><Box style={{maxHeight: '100%', overflow: 'auto'}}>{ props.toolDependency.description }</Box></StyledTableCell>
+      <StyledTableCell><Box style={{maxHeight: '100%', overflow: 'auto'}}>
+        { props.toolDependency.description }
+      </Box></StyledTableCell>
     </StyledTableRow>
   );
 }
+
+ToolDependencyRow.propTypes = {
+  toolDependency: PropTypes.object,
+};
 
 function ToolDependenciesTable(props) {
   if (props.toolDependencies === toolInfoStates.LOADING) {
@@ -64,7 +80,12 @@ function ToolDependenciesTable(props) {
         </TableHead>
         <TableBody>
           <ToolDependencyRow toolDependency={props.deidentifierInfo} />
-          {props.toolDependencies.map((toolDependency) => <ToolDependencyRow toolDependency={toolDependency} />)}
+          {props.toolDependencies.map(
+            (toolDependency, index) => <ToolDependencyRow
+              key={index}
+              toolDependency={toolDependency}
+            />,
+          )}
         </TableBody>
       </Table>
     </TableContainer>;
@@ -72,6 +93,12 @@ function ToolDependenciesTable(props) {
 }
 
 export class InfoDialog extends React.Component {
+  static propTypes = {
+    toolApi: PropTypes.instanceOf(ToolApi),
+    handleClose: PropTypes.func,
+    open: PropTypes.bool,
+  }
+
   constructor(props) {
     super(props);
     this.state = {
@@ -116,7 +143,6 @@ export class InfoDialog extends React.Component {
     } else if (this.state.deidentifierInfo === toolInfoStates.ERROR) {
       content = <DialogContentText>API Error</DialogContentText>;
     } else {
-      const toolInfo = this.state.deidentifierInfo;
       content = <React.Fragment>
         <DialogContentText id="scroll-dialog-description" tabIndex={-1}>
           You are currently using version {config.version()} of the <Link
@@ -127,7 +153,10 @@ export class InfoDialog extends React.Component {
           will be annotated and de-identified using the following NLP Sandbox
           specification-compliant tools:
         </DialogContentText>
-        <ToolDependenciesTable toolDependencies={this.state.toolDependencies} deidentifierInfo={this.state.deidentifierInfo} />
+        <ToolDependenciesTable
+          toolDependencies={this.state.toolDependencies}
+          deidentifierInfo={this.state.deidentifierInfo}
+        />
       </React.Fragment>;
     }
     return (
