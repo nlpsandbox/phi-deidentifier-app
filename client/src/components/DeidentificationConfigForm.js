@@ -4,6 +4,7 @@ import {Collapse, Paper, Table, TableRow, TableCell, AppBar, Toolbar,
   Typography, IconButton, TextField, Select, MenuItem} from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
 import RemoveCircleOutlineIcon from '@material-ui/icons/RemoveCircleOutline';
+import PropTypes from 'prop-types';
 
 const DEIDENTIFICATION_STRATEGIES = {
   'maskingCharConfig': 'Masking Character',
@@ -18,6 +19,16 @@ const ANNOTATION_TYPE_NAMES = {
 };
 
 export class DeidentificationConfigForm extends React.Component {
+  static propTypes = {
+    updateDeidStep: PropTypes.func.isRequired,
+    redoDeidStep: PropTypes.func.isRequired,
+    deleteDeidStep: PropTypes.func.isRequired,
+    annotationTypes: PropTypes.array.isRequired,
+    confidenceThreshold: PropTypes.number.isRequired,
+    index: PropTypes.number.isRequired,
+    maskingCharConfig: PropTypes.object,
+  };
+
   constructor(props) {
     super(props);
     this.state = {
@@ -30,7 +41,8 @@ export class DeidentificationConfigForm extends React.Component {
   }
 
   getStrategy() {
-    // Return the current deidentification strategy for this deidentification step
+    // Return the current deidentification strategy for this deidentification
+    // step
     let strategy;
     const deidStrategies = Object.keys(DEIDENTIFICATION_STRATEGIES);
     for (let i = 0; i < deidStrategies.length; i++) {
@@ -45,9 +57,13 @@ export class DeidentificationConfigForm extends React.Component {
     const newStrategyName = event.target.value;
     const oldStrategyName = this.getStrategy();
     if (newStrategyName === 'maskingCharConfig') {
-      this.props.redoDeidStep(this.props.index, oldStrategyName, newStrategyName, {maskingChar: '*'});
+      this.props.redoDeidStep(
+        this.props.index, oldStrategyName, newStrategyName, {maskingChar: '*'},
+      );
     } else {
-      this.props.redoDeidStep(this.props.index, oldStrategyName, newStrategyName, {});
+      this.props.redoDeidStep(
+        this.props.index, oldStrategyName, newStrategyName, {},
+      );
     }
   }
 
@@ -72,7 +88,8 @@ export class DeidentificationConfigForm extends React.Component {
 
   handleAnnotationTypeDelete = (event, index) => {
     const annotationTypes = this.props.annotationTypes;
-    const newAnnotationTypes = annotationTypes.slice(0, index).concat(annotationTypes.slice(index+1));
+    const newAnnotationTypes =
+      annotationTypes.slice(0, index).concat(annotationTypes.slice(index+1));
     this.updateDeidStep({
       annotationTypes: newAnnotationTypes,
     });
@@ -103,15 +120,24 @@ export class DeidentificationConfigForm extends React.Component {
   }
 
   render = () => {
-    const allAnnotationTypes = Object.values(DeidentificationStepAnnotationTypesEnum);
+    const allAnnotationTypes =
+      Object.values(DeidentificationStepAnnotationTypesEnum);
     const borderRadius = 10;
     return (
       <Collapse in={this.state.expand}>
         <Paper style={{borderRadius: borderRadius, overflow: 'hidden'}}>
-          <AppBar style={{backgroundColor: 'grey'}} position="static" elevation={0}>
+          <AppBar
+            style={{backgroundColor: 'grey'}}
+            position="static"
+            elevation={0}
+          >
             <Toolbar variant="dense">
-              <Typography variant="h6" style={{textAlign: 'left', flex: 1}}>De-identification Step #{this.props.index + 1}</Typography>
-              <IconButton onClick={this.handleDelete} size="small"><CloseIcon style={{color: 'white'}} /></IconButton>
+              <Typography variant="h6" style={{textAlign: 'left', flex: 1}}>
+                De-identification Step #{this.props.index + 1}
+              </Typography>
+              <IconButton onClick={this.handleDelete} size="small">
+                <CloseIcon style={{color: 'white'}} />
+              </IconButton>
             </Toolbar>
           </AppBar>
           <Table>
@@ -120,9 +146,14 @@ export class DeidentificationConfigForm extends React.Component {
                 Obfuscation method
               </TableCell>
               <TableCell>
-                <Select onChange={this.handleStrategyChange} value={this.getStrategy()}>
+                <Select
+                  onChange={this.handleStrategyChange}
+                  value={this.getStrategy()}
+                >
                   {Object.keys(DEIDENTIFICATION_STRATEGIES).map((strategy) => {
-                    return <MenuItem value={strategy} key={strategy}>{DEIDENTIFICATION_STRATEGIES[strategy]}</MenuItem>;
+                    return <MenuItem value={strategy} key={strategy}>
+                      {DEIDENTIFICATION_STRATEGIES[strategy]}
+                    </MenuItem>;
                   })}
                 </Select>
                 &nbsp;
@@ -161,17 +192,36 @@ export class DeidentificationConfigForm extends React.Component {
               <TableCell>
                 {this.props.annotationTypes.map((annotationType, index) => {
                   return (
-                    <Typography key={annotationType}>{ANNOTATION_TYPE_NAMES[annotationType]}<IconButton size="small" onClick={(event) => {
-                      this.handleAnnotationTypeDelete(event, index);
-                    }}> <RemoveCircleOutlineIcon /></IconButton></Typography>
+                    <Typography key={annotationType}>
+                      {ANNOTATION_TYPE_NAMES[annotationType]}
+                      <IconButton
+                        size="small"
+                        onClick={(event) => {
+                          this.handleAnnotationTypeDelete(event, index);
+                        }}
+                      >
+                        <RemoveCircleOutlineIcon />
+                      </IconButton>
+                    </Typography>
                   );
                 })}
-                {this.props.annotationTypes.length < allAnnotationTypes.length &&
-                  <Select displayEmpty value="" onChange={this.handleAnnotationTypeAdd}>
+                {this.props.annotationTypes.length <
+                  allAnnotationTypes.length &&
+                  <Select
+                    displayEmpty
+                    value=""
+                    onChange={this.handleAnnotationTypeAdd}
+                  >
                     <MenuItem value=""><i>click to add</i></MenuItem>
-                    {allAnnotationTypes.filter((annotationType) => !this.props.annotationTypes.includes(annotationType)).map((annotationType) => {
+                    {allAnnotationTypes.filter(
+                      (annotationType) => (
+                        !this.props.annotationTypes.includes(annotationType)
+                      ),
+                    ).map((annotationType, index) => {
                       return (
-                        <MenuItem value={annotationType}>{ANNOTATION_TYPE_NAMES[annotationType]}</MenuItem>
+                        <MenuItem value={annotationType} key={index}>
+                          {ANNOTATION_TYPE_NAMES[annotationType]}
+                        </MenuItem>
                       );
                     })}
                   </Select>
