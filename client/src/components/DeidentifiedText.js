@@ -1,5 +1,6 @@
 import React from 'react';
 import {Paper, TextField} from '@material-ui/core';
+import PropTypes from 'prop-types';
 
 export const deidentificationStates = {
   EMPTY: 0,
@@ -8,12 +9,23 @@ export const deidentificationStates = {
 };
 
 export class DeidentifiedText extends React.Component {
+  static propTypes = {
+    text: PropTypes.oneOfType([
+      PropTypes.number,
+      PropTypes.string,
+    ]),
+  };
+
   render() {
     let content;
     let color;
-    if (this.props.text === deidentificationStates.EMPTY || this.props.text === '') {
+    if (
+      this.props.text === deidentificationStates.EMPTY ||
+      this.props.text === ''
+    ) {
       color = 'grey';
-      content = 'Add a clinical note on the left and click on \'Deidentify Note\'';
+      content =
+        'Add a clinical note on the left and click on \'Deidentify Note\'';
     } else if (this.props.text === deidentificationStates.LOADING) {
       color = 'grey';
       content = 'Loading...';
