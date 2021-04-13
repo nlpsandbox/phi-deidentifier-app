@@ -5,6 +5,7 @@ import {Box, Dialog, DialogTitle, DialogContent, DialogContentText,
   withStyles} from '@material-ui/core';
 import Config from '../config';
 import {ToolApi} from '../apis';
+import PropTypes from 'prop-types';
 
 export const toolInfoStates = {
   LOADING: 1,
