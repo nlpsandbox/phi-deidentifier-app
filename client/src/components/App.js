@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Config from '../config';
 
 import {DeidentifiedNoteApi, ToolApi} from '../apis';
@@ -7,7 +8,8 @@ import {Configuration} from '../runtime';
 import {encodeString, decodeString} from '../stringSmuggler';
 
 import {withStyles} from '@material-ui/core/styles';
-import {AppBar, Box, Button, IconButton, Paper, Toolbar, Grid, Typography, TextField, Fab} from '@material-ui/core';
+import {AppBar, Box, Button, IconButton, Paper, Toolbar, Grid, Typography,
+  TextField, Fab} from '@material-ui/core';
 
 import InfoIcon from '@material-ui/icons/Info';
 import AddIcon from '@material-ui/icons/Add';
@@ -21,6 +23,9 @@ const config = new Config();
 const apiConfiguration = new Configuration({basePath: config.serverApiUrl()});
 const deidentifiedNotesApi = new DeidentifiedNoteApi(apiConfiguration);
 const toolApi = new ToolApi(apiConfiguration);
+
+const defaultText =
+  'On 12/26/2020, Ms. Chloe Price met with Dr. Prescott in Seattle.';
 
 const styles = (theme) => {
   return {
@@ -40,6 +45,11 @@ const styles = (theme) => {
 };
 
 class App extends React.Component {
+  static propTypes = {
+    location: PropTypes.object,
+    history: PropTypes.object,
+  };
+
   constructor(props) {
     super(props);
 
@@ -57,10 +67,11 @@ class App extends React.Component {
           key: 0,
           confidenceThreshold: 20,
           maskingCharConfig: {maskingChar: '*'},
-          annotationTypes: ['text_person_name', 'text_physical_address', 'text_date'],
+          annotationTypes: [
+            'text_person_name', 'text_physical_address', 'text_date'],
         }],
         note: {
-          text: 'On 12/26/2020, Ms. Chloe Price met with Dr. Prescott in Seattle.',
+          text: defaultText,
           noteType: '0000', // FIXME: figure out whether and how to get this
           identifier: '0000',
           patientId: '0000',
@@ -81,7 +92,8 @@ class App extends React.Component {
   }
 
   updateUrl = () => {
-    const queryInUrl = '/' + encodeString(JSON.stringify(this.state.deidentifyRequest));
+    const queryInUrl = '/' +
+      encodeString(JSON.stringify(this.state.deidentifyRequest));
     this.props.history.push(queryInUrl);
   }
 
@@ -90,10 +102,12 @@ class App extends React.Component {
     this.setState({deidentifiedNoteText: deidentificationStates.LOADING});
 
     // Build de-identification request
-    const deidentifyRequest = new DeidentifyRequestFromJSON(this.state.deidentifyRequest);
+    const deidentifyRequest =
+      new DeidentifyRequestFromJSON(this.state.deidentifyRequest);
 
     // Make de-identification request
-    deidentifiedNotesApi.createDeidentifiedNotes({deidentifyRequest: deidentifyRequest})
+    deidentifiedNotesApi.createDeidentifiedNotes(
+      {deidentifyRequest: deidentifyRequest})
       .then((deidentifyResponse) => {
         this.setState({
           deidentifiedNoteText: deidentifyResponse.deidentifiedNote.text,
@@ -109,7 +123,8 @@ class App extends React.Component {
   }
 
   replaceDeidentificationStep = (index, newStep) => {
-    const deidentificationSteps = [...this.state.deidentifyRequest.deidentificationSteps];
+    const deidentificationSteps =
+      [...this.state.deidentifyRequest.deidentificationSteps];
     deidentificationSteps[index] = newStep;
     this.setState(
       {
@@ -146,11 +161,13 @@ class App extends React.Component {
   }
 
   addDeidStep = (event) => {
-    const deidentificationSteps = [...this.state.deidentifyRequest.deidentificationSteps];
+    const deidentificationSteps =
+      [...this.state.deidentifyRequest.deidentificationSteps];
     const newDeidStep = {
       confidenceThreshold: 20,
       maskingCharConfig: {maskingChar: '*'},
-      annotationTypes: ['text_person_name', 'text_physical_address', 'text_date'],
+      annotationTypes: [
+        'text_person_name', 'text_physical_address', 'text_date'],
       key: this.state.deidentifyRequest.keyMax+1,
     };
     deidentificationSteps.push(newDeidStep);
@@ -168,14 +185,18 @@ class App extends React.Component {
 
   redoDeidentificationStep = (index, oldKey, newKey, newValue) => {
     // Delete a key from a deid step, and add a new key, value pair to it
-    const {[oldKey]: omitted, ...newDeidStep} = this.state.deidentifyRequest.deidentificationSteps[index];
+    /* eslint-disable no-unused-vars */
+    const {[oldKey]: omitted, ...newDeidStep} =
+      this.state.deidentifyRequest.deidentificationSteps[index];
+    /* eslint-enable no-unused-vars */
     newDeidStep[newKey] = newValue;
 
     this.replaceDeidentificationStep(index, newDeidStep);
   }
 
   deleteDeidentificationStep = (index) => {
-    const deidentificationSteps = [...this.state.deidentifyRequest.deidentificationSteps];
+    const deidentificationSteps =
+      [...this.state.deidentifyRequest.deidentificationSteps];
     deidentificationSteps.splice(index, 1);
     this.setState(
       {
@@ -191,10 +212,19 @@ class App extends React.Component {
   render() {
     const {classes} = this.props;
 
-    const leftColumn = <Grid align="center" item sm={6} lg={4} container direction="column" spacing={2}>
+    const leftColumn = <Grid
+      align="center"
+      item sm={6}
+      lg={4}
+      container
+      direction="column"
+      spacing={2}
+    >
       <Grid item>
         <Box padding={2}>
-          <Typography variant="h5" style={{fontWeight: 'bold'}}>Input Note</Typography>
+          <Typography variant="h5" style={{fontWeight: 'bold'}}>
+            Input Note
+          </Typography>
         </Box>
       </Grid>
       <Grid item>
@@ -210,16 +240,20 @@ class App extends React.Component {
         </Paper>
       </Grid>
       <Grid item>
-        <Button variant="contained" size="large" className={classes.deidButton} onClick={this.deidentifyNote}>Deidentify Note</Button>
+        <Button variant="contained" size="large"
+          className={classes.deidButton}
+          onClick={this.deidentifyNote}>Deidentify Note</Button>
       </Grid>
       <Grid item>
         <Box padding={2}>
-          <Typography variant="h5" style={{fontWeight: 'bold'}}>Deidentification Steps</Typography>
+          <Typography variant="h5" style={{fontWeight: 'bold'}}>
+            Deidentification Steps
+          </Typography>
         </Box>
       </Grid>
       {
-        this.state.deidentifyRequest.deidentificationSteps.map((deidStep, index) =>
-          <Grid item key={deidStep.key}>
+        this.state.deidentifyRequest.deidentificationSteps.map(
+          (deidStep, index) => <Grid item key={deidStep.key}>
             <DeidentificationConfigForm
               deleteDeidStep={this.deleteDeidentificationStep}
               updateDeidStep={this.updateDeidentificationStep}
@@ -235,10 +269,20 @@ class App extends React.Component {
       </Grid>
     </Grid>;
 
-    const rightColumn = <Grid align="center" item sm={6} lg={4} container spacing={2} direction="column">
+    const rightColumn = <Grid
+      align="center"
+      item
+      sm={6}
+      lg={4}
+      container
+      spacing={2}
+      direction="column"
+    >
       <Grid item>
         <Box padding={2}>
-          <Typography variant="h5" style={{fontWeight: 'bold'}}>De-identified Note</Typography>
+          <Typography variant="h5" style={{fontWeight: 'bold'}}>
+            De-identified Note
+          </Typography>
         </Box>
       </Grid>
       <Grid item>
@@ -246,7 +290,9 @@ class App extends React.Component {
       </Grid>
       <Grid item>
         <Box padding={2}>
-          <Typography variant="h5" style={{fontWeight: 'bold'}}>Annotations</Typography>
+          <Typography variant="h5" style={{fontWeight: 'bold'}}>
+            Annotations
+          </Typography>
         </Box>
       </Grid>
       <Grid item>
@@ -258,7 +304,9 @@ class App extends React.Component {
       <div className={classes.root}>
         <AppBar style={{backgroundColor: 'grey'}} position="static">
           <Toolbar>
-            <Typography variant="h4" style={{flex: 1}} >NLP Sandbox PHI Deidentifier</Typography>
+            <Typography variant="h4" style={{flex: 1}} >
+              NLP Sandbox PHI Deidentifier
+            </Typography>
             <IconButton onClick={() => {
               this.setState({showInfo: true});
             }}><InfoIcon style={{color: 'white'}} /></IconButton>
@@ -282,5 +330,9 @@ class App extends React.Component {
     );
   }
 }
+
+App.propTypes = {
+  classes: PropTypes.object,
+};
 
 export default withStyles(styles)(App);
