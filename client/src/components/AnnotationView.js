@@ -47,7 +47,10 @@ function AnnotationView(props) {
 }
 
 AnnotationView.propTypes = {
-  annotations: PropTypes.any,
+  annotations: PropTypes.oneOfType([
+    PropTypes.object,
+    PropTypes.number,
+  ]),
 };
 
 export default AnnotationView;
