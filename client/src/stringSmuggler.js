@@ -7,6 +7,7 @@
 export function encodeString(decodedString) {
   const buff = new Buffer(decodedString);
   return buff.toString('base64');
+
 }
 
 export function decodeString(encodedString) {
