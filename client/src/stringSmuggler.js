@@ -5,11 +5,11 @@
 // then use that as the url.
 
 export function encodeString(decodedString) {
-  let buff = new Buffer(decodedString);
+  const buff = new Buffer(decodedString);
   return buff.toString('base64');
 }
 
 export function decodeString(encodedString) {
-  let buff = new Buffer(encodedString, 'base64');
+  const buff = new Buffer(encodedString, 'base64');
   return buff.toString('utf-8');
 }
