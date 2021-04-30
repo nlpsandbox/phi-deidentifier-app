@@ -26,7 +26,7 @@ jobs:
       run: npm ci
     - name: Run ESLint
       working-directory: ${{env.working-directory}}
-      run: npx eslint
+      run: npm run lint
   docker:
     # needs: [test]
     runs-on: ubuntu-latest
