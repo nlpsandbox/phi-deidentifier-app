@@ -21,7 +21,7 @@ export default class Config {
     const serverProtocol = this.serverProtocol();
     const serverHost = this.serverHost();
     const serverPort = this.serverPort();
-    return `${serverProtocol}${serverHost}:${serverPort}`
+    return `${serverProtocol}${serverHost}:${serverPort}`;
   }
 
   serverApiPath() {
@@ -41,7 +41,6 @@ export default class Config {
 
   source() {
     // URL to source of web client
-    return "https://github.com/nlpsandbox/phi-deidentifier-app";
+    return 'https://github.com/nlpsandbox/phi-deidentifier-app';
   }
-
 }

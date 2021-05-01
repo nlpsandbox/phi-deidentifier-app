@@ -15,6 +15,18 @@ env:
   docker_repository: nlpsandbox/phi-deidentifier-app
 
 jobs:
+  build:
+    env:
+      working-directory: ./client
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install modules
+      working-directory: ${{env.working-directory}}
+      run: npm ci
+    - name: Run ESLint
+      working-directory: ${{env.working-directory}}
+      run: npm run lint
   docker:
     # needs: [test]
     runs-on: ubuntu-latest

@@ -1,21 +1,26 @@
 import React from 'react';
-import { Box, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Button, Grid, CircularProgress, Link, Paper, Table, TableHead, TableRow, TableCell, TableBody, TableContainer, withStyles } from '@material-ui/core';
+import {Box, Dialog, DialogTitle, DialogContent, DialogContentText,
+  DialogActions, Button, Grid, CircularProgress, Link, Paper, Table,
+  TableHead, TableRow, TableCell, TableBody, TableContainer,
+  withStyles} from '@material-ui/core';
 import Config from '../config';
+import {ToolApi} from '../apis';
+import PropTypes from 'prop-types';
 
 export const toolInfoStates = {
   LOADING: 1,
-  ERROR: 2
-}
+  ERROR: 2,
+};
 
 const StyledTableCell = withStyles((theme) => ({
   head: {
-    backgroundColor: "grey",
+    backgroundColor: 'grey',
     color: theme.palette.common.white,
-    padding: theme.spacing(1.5)
+    padding: theme.spacing(1.5),
   },
   body: {
     fontSize: 14,
-    padding: theme.spacing(1.5)
+    padding: theme.spacing(1.5),
   },
 }))(TableCell);
 
@@ -32,15 +37,27 @@ function ToolDependencyRow(props) {
     <StyledTableRow maxHeight="100px">
       <StyledTableCell>{ props.toolDependency.toolType }</StyledTableCell>
       <StyledTableCell>{ props.toolDependency.toolApiVersion }</StyledTableCell>
-      <StyledTableCell><Link href={ props.toolDependency.url }>{ props.toolDependency.name }</Link></StyledTableCell>
+      <StyledTableCell>
+        <Link href={ props.toolDependency.url }>
+          { props.toolDependency.name }</Link>
+      </StyledTableCell>
       <StyledTableCell>{ props.toolDependency.version }</StyledTableCell>
-      <StyledTableCell><Link href={ "mailto:"+props.toolDependency.authorEmail }>{ props.toolDependency.author }</Link></StyledTableCell>
+      <StyledTableCell>
+        <Link href={ 'mailto:'+props.toolDependency.authorEmail }>
+          { props.toolDependency.author }</Link>
+      </StyledTableCell>
       <StyledTableCell>{ props.toolDependency.repository }</StyledTableCell>
       <StyledTableCell>{ props.toolDependency.license }</StyledTableCell>
-      <StyledTableCell ><Box style={{ maxHeight: "100%", overflow: "auto" }}>{ props.toolDependency.description }</Box></StyledTableCell>
+      <StyledTableCell><Box style={{maxHeight: '100%', overflow: 'auto'}}>
+        { props.toolDependency.description }
+      </Box></StyledTableCell>
     </StyledTableRow>
   );
 }
+
+ToolDependencyRow.propTypes = {
+  toolDependency: PropTypes.object,
+};
 
 function ToolDependenciesTable(props) {
   if (props.toolDependencies === toolInfoStates.LOADING) {
@@ -49,34 +66,45 @@ function ToolDependenciesTable(props) {
     return <Grid item xs={12}>API ERROR</Grid>;
   } else {
     return <TableContainer component={Paper}>
-    <Table>
-      <TableHead>
-        <StyledTableRow>
-          <StyledTableCell>Type</StyledTableCell>
-          <StyledTableCell>API Version</StyledTableCell>
-          <StyledTableCell>Name</StyledTableCell>
-          <StyledTableCell>Version</StyledTableCell>
-          <StyledTableCell>Author</StyledTableCell>
-          <StyledTableCell>Repository</StyledTableCell>
-          <StyledTableCell>License</StyledTableCell>
-          <StyledTableCell>Description</StyledTableCell>
-        </StyledTableRow>
-      </TableHead>
-      <TableBody>
-        <ToolDependencyRow toolDependency={props.deidentifierInfo} />
-        {props.toolDependencies.map((toolDependency) => <ToolDependencyRow toolDependency={toolDependency} />)}
-      </TableBody>
-    </Table>
-    </TableContainer>
+      <Table>
+        <TableHead>
+          <StyledTableRow>
+            <StyledTableCell>Type</StyledTableCell>
+            <StyledTableCell>API Version</StyledTableCell>
+            <StyledTableCell>Name</StyledTableCell>
+            <StyledTableCell>Version</StyledTableCell>
+            <StyledTableCell>Author</StyledTableCell>
+            <StyledTableCell>Repository</StyledTableCell>
+            <StyledTableCell>License</StyledTableCell>
+            <StyledTableCell>Description</StyledTableCell>
+          </StyledTableRow>
+        </TableHead>
+        <TableBody>
+          <ToolDependencyRow toolDependency={props.deidentifierInfo} />
+          {props.toolDependencies.map(
+            (toolDependency, index) => <ToolDependencyRow
+              key={index}
+              toolDependency={toolDependency}
+            />,
+          )}
+        </TableBody>
+      </Table>
+    </TableContainer>;
   }
 }
 
 export class InfoDialog extends React.Component {
+  static propTypes = {
+    toolApi: PropTypes.instanceOf(ToolApi),
+    handleClose: PropTypes.func,
+    open: PropTypes.bool,
+  }
+
   constructor(props) {
     super(props);
     this.state = {
       toolDependencies: toolInfoStates.LOADING,
-      deidentifierInfo: toolInfoStates.LOADING
+      deidentifierInfo: toolInfoStates.LOADING,
     };
   }
 
@@ -85,12 +113,12 @@ export class InfoDialog extends React.Component {
     this.props.toolApi.getToolDependencies()
       .then((apiResponse) => {
         this.setState({
-          toolDependencies: apiResponse.toolDependencies
+          toolDependencies: apiResponse.toolDependencies,
         });
       })
       .catch((error) => {
         this.setState({
-          toolDependencies: toolInfoStates.ERROR
+          toolDependencies: toolInfoStates.ERROR,
         });
       });
 
@@ -98,13 +126,13 @@ export class InfoDialog extends React.Component {
     this.props.toolApi.getTool()
       .then((apiResponse) => {
         this.setState({
-          deidentifierInfo: apiResponse
-        })
+          deidentifierInfo: apiResponse,
+        });
       })
       .catch(() => {
         this.setState({
-          deidentifierInfo: toolInfoStates.ERROR
-        })
+          deidentifierInfo: toolInfoStates.ERROR,
+        });
       });
   }
 
@@ -112,23 +140,25 @@ export class InfoDialog extends React.Component {
     const config = new Config();
     let content;
     if (this.state.deidentifierInfo === toolInfoStates.LOADING) {
-      content = <CircularProgress />
+      content = <CircularProgress />;
     } else if (this.state.deidentifierInfo === toolInfoStates.ERROR) {
       content = <DialogContentText>API Error</DialogContentText>;
     } else {
-      const toolInfo = this.state.deidentifierInfo;
       content = <React.Fragment>
         <DialogContentText id="scroll-dialog-description" tabIndex={-1}>
           You are currently using version {config.version()} of the <Link
-          href={config.source()}>NLP
+            href={config.source()}>NLP
           Sandbox PHI Deidentifier Web Client</Link>, a tool made for testing
           the effectiveness of community-created, open source PHI annotators
           submitted to the NLP Sandbox. You can input a clinical note, which
           will be annotated and de-identified using the following NLP Sandbox
           specification-compliant tools:
         </DialogContentText>
-        <ToolDependenciesTable toolDependencies={this.state.toolDependencies} deidentifierInfo={this.state.deidentifierInfo} />
-      </React.Fragment>
+        <ToolDependenciesTable
+          toolDependencies={this.state.toolDependencies}
+          deidentifierInfo={this.state.deidentifierInfo}
+        />
+      </React.Fragment>;
     }
     return (
       <Dialog
@@ -149,9 +179,9 @@ export class InfoDialog extends React.Component {
           {content}
         </DialogContent>
         <DialogActions>
-            <Button onClick={this.props.handleClose} color="primary">
+          <Button onClick={this.props.handleClose} color="primary">
               Close
-            </Button>
+          </Button>
         </DialogActions>
       </Dialog>
     );
