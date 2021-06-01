@@ -47,6 +47,6 @@
     "@typescript-eslint/parser": "^4.17.0",
     "eslint": "^7.21.0",
     "eslint-config-google": "^0.14.0",
-    "eslint-plugin-react": "^7.22.0"
+    "eslint-plugin-react": "^7.24.0"
   }
 }
