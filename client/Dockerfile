@@ -23,6 +23,7 @@ WORKDIR /usr/share/nginx/html
 COPY env.sh .
 COPY env_vars .
 
+# hadolint ignore=DL3008
 RUN apk add --no-cache bash
 RUN chmod +x env.sh
 
