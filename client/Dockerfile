@@ -1,13 +1,14 @@
 # pull official node base image
 FROM node:16.2.0-alpine3.12 as build
+
 WORKDIR /app
 ENV PATH /app/node_modules/.bin:$PATH
 COPY package.json ./
 COPY package-lock.json ./
-RUN npm ci --silent
-RUN npm install react-scripts@3.4.1 -g --silent
-COPY . ./
-RUN npm run build
+COPY . ./  # TODO Either copy file individually or use this line + .gitignore
+RUN npm ci --silent \
+    && npm install react-scripts@3.4.1 -g --silent \
+    && npm run build
 
 # production environment
 FROM nginx:1.21.0-alpine
