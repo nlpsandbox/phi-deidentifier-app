@@ -23,9 +23,9 @@ WORKDIR /usr/share/nginx/html
 COPY env.sh .
 COPY env_vars .
 
-# hadolint ignore=DL3008
-RUN apk add --no-cache bash
-RUN chmod +x env.sh
+# hadolint ignore=DL3018
+RUN apk add --no-cache bash \
+    && chmod +x env.sh
 
 EXPOSE 80
 CMD ["/bin/bash", "-c", "/usr/share/nginx/html/env.sh && nginx -g \"daemon off;\""]
