@@ -59,7 +59,7 @@ services:
       - physical-address-annotator
 
   phi-deidentifier-app:
-    image: nlpsandbox/phi-deidentifier-app:1.0.0
+    image: nlpsandbox/phi-deidentifier-app:1.1.0
     build:
       context: client
       dockerfile: Dockerfile
