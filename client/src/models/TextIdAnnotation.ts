@@ -18,72 +18,72 @@ import {
     TextAnnotationFromJSON,
     TextAnnotationFromJSONTyped,
     TextAnnotationToJSON,
-    TextPhysicalAddressAnnotationAllOf,
-    TextPhysicalAddressAnnotationAllOfFromJSON,
-    TextPhysicalAddressAnnotationAllOfFromJSONTyped,
-    TextPhysicalAddressAnnotationAllOfToJSON,
+    TextIdAnnotationAllOf,
+    TextIdAnnotationAllOfFromJSON,
+    TextIdAnnotationAllOfFromJSONTyped,
+    TextIdAnnotationAllOfToJSON,
 } from './';
 
 /**
- * A physical address annotation in a text
+ * An ID annotation in a text
  * @export
- * @interface TextPhysicalAddressAnnotation
+ * @interface TextIdAnnotation
  */
-export interface TextPhysicalAddressAnnotation {
+export interface TextIdAnnotation {
     /**
      * The position of the first character
      * @type {number}
-     * @memberof TextPhysicalAddressAnnotation
+     * @memberof TextIdAnnotation
      */
     start: number;
     /**
      * The length of the annotation
      * @type {number}
-     * @memberof TextPhysicalAddressAnnotation
+     * @memberof TextIdAnnotation
      */
     length: number;
     /**
      * The string annotated
      * @type {string}
-     * @memberof TextPhysicalAddressAnnotation
+     * @memberof TextIdAnnotation
      */
     text: string;
     /**
      * The confidence in the accuracy of the annotation
      * @type {number}
-     * @memberof TextPhysicalAddressAnnotation
+     * @memberof TextIdAnnotation
      */
     confidence: number;
     /**
-     * Type of address information
+     * Type of ID information
      * @type {string}
-     * @memberof TextPhysicalAddressAnnotation
+     * @memberof TextIdAnnotation
      */
-    addressType: TextPhysicalAddressAnnotationAddressTypeEnum;
+    idType: TextIdAnnotationIdTypeEnum;
 }
 
 /**
 * @export
 * @enum {string}
 */
-export enum TextPhysicalAddressAnnotationAddressTypeEnum {
-    City = 'city',
-    Country = 'country',
-    Department = 'department',
-    Hospital = 'hospital',
-    Organization = 'organization',
-    Other = 'other',
-    Room = 'room',
-    State = 'state',
-    Street = 'street',
-    Zip = 'zip'
+export enum TextIdAnnotationIdTypeEnum {
+    Account = 'account',
+    BioId = 'bio_id',
+    Device = 'device',
+    HealthPlan = 'health_plan',
+    IdNumber = 'id_number',
+    License = 'license',
+    MedicalRecord = 'medical_record',
+    Ssn = 'ssn',
+    Vehicle = 'vehicle',
+    Other = 'other'
 }
 
-export function TextPhysicalAddressAnnotationFromJSON(json: any): TextPhysicalAddressAnnotation {
-    return TextPhysicalAddressAnnotationFromJSONTyped(json, false);
+export function TextIdAnnotationFromJSON(json: any): TextIdAnnotation {
+    return TextIdAnnotationFromJSONTyped(json, false);
 }
 
-export function TextPhysicalAddressAnnotationFromJSONTyped(json: any, ignoreDiscriminator: boolean): TextPhysicalAddressAnnotation {
+export function TextIdAnnotationFromJSONTyped(json: any, ignoreDiscriminator: boolean): TextIdAnnotation {
     if ((json === undefined) || (json === null)) {
         return json;
     }
@@ -93,11 +93,11 @@ export function TextPhysicalAddressAnnotationFromJSONTyped(json: any, ignoreDisc
         'length': json['length'],
         'text': json['text'],
         'confidence': json['confidence'],
-        'addressType': json['addressType'],
+        'idType': json['idType'],
     };
 }
 
-export function TextPhysicalAddressAnnotationToJSON(value?: TextPhysicalAddressAnnotation | null): any {
+export function TextIdAnnotationToJSON(value?: TextIdAnnotation | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -110,7 +110,7 @@ export function TextPhysicalAddressAnnotationToJSON(value?: TextPhysicalAddressA
         'length': value.length,
         'text': value.text,
         'confidence': value.confidence,
-        'addressType': value.addressType,
+        'idType': value.idType,
     };
 }
 

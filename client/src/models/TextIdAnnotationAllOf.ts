@@ -16,32 +16,49 @@ import { exists, mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface TextDateAnnotationAllOf
+ * @interface TextIdAnnotationAllOf
  */
-export interface TextDateAnnotationAllOf {
+export interface TextIdAnnotationAllOf {
     /**
-     * Date format (ISO 8601)
+     * Type of ID information
      * @type {string}
-     * @memberof TextDateAnnotationAllOf
+     * @memberof TextIdAnnotationAllOf
      */
-    dateFormat?: string;
+    idType: TextIdAnnotationAllOfIdTypeEnum;
 }
 
-export function TextDateAnnotationAllOfFromJSON(json: any): TextDateAnnotationAllOf {
-    return TextDateAnnotationAllOfFromJSONTyped(json, false);
+/**
+* @export
+* @enum {string}
+*/
+export enum TextIdAnnotationAllOfIdTypeEnum {
+    Account = 'account',
+    BioId = 'bio_id',
+    Device = 'device',
+    HealthPlan = 'health_plan',
+    IdNumber = 'id_number',
+    License = 'license',
+    MedicalRecord = 'medical_record',
+    Ssn = 'ssn',
+    Vehicle = 'vehicle',
+    Other = 'other'
 }
 
-export function TextDateAnnotationAllOfFromJSONTyped(json: any, ignoreDiscriminator: boolean): TextDateAnnotationAllOf {
+export function TextIdAnnotationAllOfFromJSON(json: any): TextIdAnnotationAllOf {
+    return TextIdAnnotationAllOfFromJSONTyped(json, false);
+}
+
+export function TextIdAnnotationAllOfFromJSONTyped(json: any, ignoreDiscriminator: boolean): TextIdAnnotationAllOf {
     if ((json === undefined) || (json === null)) {
         return json;
     }
     return {
         
-        'dateFormat': !exists(json, 'dateFormat') ? undefined : json['dateFormat'],
+        'idType': json['idType'],
     };
 }
 
-export function TextDateAnnotationAllOfToJSON(value?: TextDateAnnotationAllOf | null): any {
+export function TextIdAnnotationAllOfToJSON(value?: TextIdAnnotationAllOf | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -50,7 +67,7 @@ export function TextDateAnnotationAllOfToJSON(value?: TextDateAnnotationAllOf | 
     }
     return {
         
-        'dateFormat': value.dateFormat,
+        'idType': value.idType,
     };
 }
 
