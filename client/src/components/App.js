@@ -72,7 +72,7 @@ class App extends React.Component {
         }],
         note: {
           text: defaultText,
-          noteType: '0000', // FIXME: figure out whether and how to get this
+          type: '0000', // FIXME: figure out whether and how to get this
           identifier: '0000',
           patientId: '0000',
         },
