@@ -33,10 +33,11 @@ const StyledTableRow = withStyles((theme) => ({
 }))(TableRow);
 
 function ToolDependencyRow(props) {
+  console.log(props.toolDependency);
   return (
     <StyledTableRow maxHeight="100px">
-      <StyledTableCell>{ props.toolDependency.toolType }</StyledTableCell>
-      <StyledTableCell>{ props.toolDependency.toolApiVersion }</StyledTableCell>
+      <StyledTableCell>{ props.toolDependency.type }</StyledTableCell>
+      <StyledTableCell>{ props.toolDependency.apiVersion }</StyledTableCell>
       <StyledTableCell>
         <Link href={ props.toolDependency.url }>
           { props.toolDependency.name }</Link>
