@@ -11,6 +11,8 @@ function AnnotationView(props) {
     'textPhysicalAddressAnnotations'},
     {type: 'text_person_name', name: 'Person Name', key:
     'textPersonNameAnnotations'},
+    {type: 'text_contact', name: 'Contact Info', key: 'textContactAnnotations'},
+    {type: 'text_id', name: 'Identifier', key: 'textIdAnnotations'},
   ];
 
   let allAnnotations;
