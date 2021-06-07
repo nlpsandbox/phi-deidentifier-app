@@ -16,6 +16,8 @@ const ANNOTATION_TYPE_NAMES = {
   'text_date': 'Date',
   'text_person_name': 'Person Name',
   'text_physical_address': 'Physical Address',
+  'text_contact': 'Contact Info',
+  'text_id': 'ID Number',
 };
 
 export class DeidentificationConfigForm extends React.Component {
