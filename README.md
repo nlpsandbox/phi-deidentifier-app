@@ -47,6 +47,7 @@ Then, in another shell, run the following:
 
 ```bash
 $ cd client/
+$ npm ci
 $ SERVER_PORT=80 npm start
 ```
 
