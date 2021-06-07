@@ -33,10 +33,11 @@ const StyledTableRow = withStyles((theme) => ({
 }))(TableRow);
 
 function ToolDependencyRow(props) {
+  console.log(props.toolDependency);
   return (
     <StyledTableRow maxHeight="100px">
-      <StyledTableCell>{ props.toolDependency.toolType }</StyledTableCell>
-      <StyledTableCell>{ props.toolDependency.toolApiVersion }</StyledTableCell>
+      <StyledTableCell>{ props.toolDependency.type }</StyledTableCell>
+      <StyledTableCell>{ props.toolDependency.apiVersion }</StyledTableCell>
       <StyledTableCell>
         <Link href={ props.toolDependency.url }>
           { props.toolDependency.name }</Link>
@@ -81,7 +82,7 @@ function ToolDependenciesTable(props) {
         </TableHead>
         <TableBody>
           <ToolDependencyRow toolDependency={props.deidentifierInfo} />
-          {props.toolDependencies.map(
+          {props.toolDependencies.tools.map(
             (toolDependency, index) => <ToolDependencyRow
               key={index}
               toolDependency={toolDependency}
@@ -113,7 +114,7 @@ export class InfoDialog extends React.Component {
     this.props.toolApi.getToolDependencies()
       .then((apiResponse) => {
         this.setState({
-          toolDependencies: apiResponse.toolDependencies,
+          toolDependencies: apiResponse,
         });
       })
       .catch((error) => {
