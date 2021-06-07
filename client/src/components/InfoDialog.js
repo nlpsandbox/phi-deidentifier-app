@@ -81,7 +81,7 @@ function ToolDependenciesTable(props) {
         </TableHead>
         <TableBody>
           <ToolDependencyRow toolDependency={props.deidentifierInfo} />
-          {props.toolDependencies.map(
+          {props.toolDependencies.tools.map(
             (toolDependency, index) => <ToolDependencyRow
               key={index}
               toolDependency={toolDependency}
@@ -113,7 +113,7 @@ export class InfoDialog extends React.Component {
     this.props.toolApi.getToolDependencies()
       .then((apiResponse) => {
         this.setState({
-          toolDependencies: apiResponse.toolDependencies,
+          toolDependencies: apiResponse,
         });
       })
       .catch((error) => {
