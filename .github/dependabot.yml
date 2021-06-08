@@ -6,37 +6,27 @@ updates:
     schedule:
       interval: "monthly"
     target-branch: "main"
-    reviewers:
-      - "nlpsandbox/maintainers"
 
   - package-ecosystem: "docker"
     directory: "/client"
     schedule:
       interval: "monthly"
     target-branch: "main"
-    reviewers:
-      - "nlpsandbox/maintainers"
 
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
       interval: "monthly"
     target-branch: "develop"
-    reviewers:
-      - "nlpsandbox/maintainers"
 
   - package-ecosystem: "npm"
     directory: "/"
     schedule:
       interval: "monthly"
     target-branch: "main"
-    reviewers:
-      - "nlpsandbox/maintainers"
 
   - package-ecosystem: "npm"
     directory: "/client"
     schedule:
       interval: "monthly"
     target-branch: "main"
-    reviewers:
-      - "nlpsandbox/maintainers"
