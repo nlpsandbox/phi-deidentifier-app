@@ -35,7 +35,7 @@ services:
     restart: always
     networks:
       - nlpsandbox-internal
-
+    
   phi-deidentifier:
     image: docker.synapse.org/syn22277123/phi-deidentifier:1.1.0
     container_name: phi-deidentifier
@@ -61,7 +61,7 @@ services:
       - id-annotator
 
   phi-deidentifier-app:
-    image: docker.synapse.org/syn22277123/phi-deidentifier-app:1.0.0
+    image: nlpsandbox/phi-deidentifier-app:1.1.0
     build:
       context: client
       dockerfile: Dockerfile

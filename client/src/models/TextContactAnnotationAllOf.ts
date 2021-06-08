@@ -16,32 +16,45 @@ import { exists, mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface TextDateAnnotationAllOf
+ * @interface TextContactAnnotationAllOf
  */
-export interface TextDateAnnotationAllOf {
+export interface TextContactAnnotationAllOf {
     /**
-     * Date format (ISO 8601)
+     * Type of contact information
      * @type {string}
-     * @memberof TextDateAnnotationAllOf
+     * @memberof TextContactAnnotationAllOf
      */
-    dateFormat?: string;
+    contactType: TextContactAnnotationAllOfContactTypeEnum;
 }
 
-export function TextDateAnnotationAllOfFromJSON(json: any): TextDateAnnotationAllOf {
-    return TextDateAnnotationAllOfFromJSONTyped(json, false);
+/**
+* @export
+* @enum {string}
+*/
+export enum TextContactAnnotationAllOfContactTypeEnum {
+    Email = 'email',
+    Fax = 'fax',
+    IpAddress = 'ip_address',
+    Phone = 'phone',
+    Url = 'url',
+    Other = 'other'
 }
 
-export function TextDateAnnotationAllOfFromJSONTyped(json: any, ignoreDiscriminator: boolean): TextDateAnnotationAllOf {
+export function TextContactAnnotationAllOfFromJSON(json: any): TextContactAnnotationAllOf {
+    return TextContactAnnotationAllOfFromJSONTyped(json, false);
+}
+
+export function TextContactAnnotationAllOfFromJSONTyped(json: any, ignoreDiscriminator: boolean): TextContactAnnotationAllOf {
     if ((json === undefined) || (json === null)) {
         return json;
     }
     return {
         
-        'dateFormat': !exists(json, 'dateFormat') ? undefined : json['dateFormat'],
+        'contactType': json['contactType'],
     };
 }
 
-export function TextDateAnnotationAllOfToJSON(value?: TextDateAnnotationAllOf | null): any {
+export function TextContactAnnotationAllOfToJSON(value?: TextContactAnnotationAllOf | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -50,7 +63,7 @@ export function TextDateAnnotationAllOfToJSON(value?: TextDateAnnotationAllOf | 
     }
     return {
         
-        'dateFormat': value.dateFormat,
+        'contactType': value.contactType,
     };
 }
 

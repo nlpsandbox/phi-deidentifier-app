@@ -39,7 +39,7 @@ the de-identifier server being run in the background. Assuming that Node and Doc
 commands can start up the full stack (back end & front end) for development/testing purposes using the following commands:
 
 ```bash
-$ docker-compose up --build phi-deidentifier
+$ docker compose up --build
 ```
 (you may have to run this command as root or prepend the command with `sudo`).
 
@@ -47,6 +47,7 @@ Then, in another shell, run the following:
 
 ```bash
 $ cd client/
+$ npm ci
 $ SERVER_PORT=80 npm start
 ```
 
