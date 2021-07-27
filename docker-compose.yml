@@ -37,7 +37,7 @@ services:
       - nlpsandbox-internal
     
   phi-deidentifier:
-    image: nlpsandbox/phi-deidentifier:1.1.0
+    image: nlpsandbox/phi-deidentifier-example:1.1.0
     container_name: phi-deidentifier
     restart: always
     environment:
