@@ -36,7 +36,7 @@ export default class Config {
 
   version() {
     // Version of the web client
-    return '1.1.0';
+    return '1.2.0';
   }
 
   source() {
