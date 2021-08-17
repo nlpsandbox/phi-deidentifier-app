@@ -1,5 +1,5 @@
 # pull official node base image
-FROM node:16.2.0-alpine3.12 as build
+FROM node:16.6.0-alpine3.12 as build
 WORKDIR /app
 ENV PATH /app/node_modules/.bin:$PATH
 COPY package.json ./
