@@ -14,44 +14,51 @@
 
 import { exists, mapValues } from '../runtime';
 /**
- * Represents the health of a service
+ * 
  * @export
- * @interface HealthCheck
+ * @interface TextLocationAnnotationAllOf
  */
-export interface HealthCheck {
+export interface TextLocationAnnotationAllOf {
     /**
-     * Indicates whether the service status is acceptable or not
+     * Type of location
      * @type {string}
-     * @memberof HealthCheck
+     * @memberof TextLocationAnnotationAllOf
      */
-    status: HealthCheckStatusEnum;
+    locationType: TextLocationAnnotationAllOfLocationTypeEnum;
 }
 
 /**
 * @export
 * @enum {string}
 */
-export enum HealthCheckStatusEnum {
-    Pass = 'pass',
-    Fail = 'fail',
-    Warn = 'warn'
+export enum TextLocationAnnotationAllOfLocationTypeEnum {
+    City = 'city',
+    Country = 'country',
+    Department = 'department',
+    Hospital = 'hospital',
+    Organization = 'organization',
+    Other = 'other',
+    Room = 'room',
+    State = 'state',
+    Street = 'street',
+    Zip = 'zip'
 }
 
-export function HealthCheckFromJSON(json: any): HealthCheck {
-    return HealthCheckFromJSONTyped(json, false);
+export function TextLocationAnnotationAllOfFromJSON(json: any): TextLocationAnnotationAllOf {
+    return TextLocationAnnotationAllOfFromJSONTyped(json, false);
 }
 
-export function HealthCheckFromJSONTyped(json: any, ignoreDiscriminator: boolean): HealthCheck {
+export function TextLocationAnnotationAllOfFromJSONTyped(json: any, ignoreDiscriminator: boolean): TextLocationAnnotationAllOf {
     if ((json === undefined) || (json === null)) {
         return json;
     }
     return {
         
-        'status': json['status'],
+        'locationType': json['locationType'],
     };
 }
 
-export function HealthCheckToJSON(value?: HealthCheck | null): any {
+export function TextLocationAnnotationAllOfToJSON(value?: TextLocationAnnotationAllOf | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -60,7 +67,7 @@ export function HealthCheckToJSON(value?: HealthCheck | null): any {
     }
     return {
         
-        'status': value.status,
+        'locationType': value.locationType,
     };
 }
 
