@@ -1,11 +1,13 @@
 # pull official node base image
 FROM node:16.6.0-alpine3.12 as build
+
 WORKDIR /app
 ENV PATH /app/node_modules/.bin:$PATH
 COPY package.json ./
 COPY package-lock.json ./
-RUN npm ci --silent
-RUN npm install react-scripts@3.4.1 -g --silent
+
+RUN npm ci --silent \
+    && npm install react-scripts@3.4.1 -g --silent
 COPY src ./src
 COPY public ./public
 RUN npm run build
@@ -20,8 +22,9 @@ WORKDIR /usr/share/nginx/html
 COPY env.sh .
 COPY env_vars .
 
-RUN apk add --no-cache bash
-RUN chmod +x env.sh
+# hadolint ignore=DL3018
+RUN apk add --no-cache bash \
+    && chmod +x env.sh
 
 EXPOSE 80
 CMD ["/bin/bash", "-c", "/usr/share/nginx/html/env.sh && nginx -g \"daemon off;\""]
