@@ -56,7 +56,7 @@ services:
     depends_on:
       - date-annotator
       - person-name-annotator
-      - physical-address-annotator
+      - location-annotator
       - contact-annotator
       - id-annotator
 
