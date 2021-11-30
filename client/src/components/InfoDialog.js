@@ -94,6 +94,11 @@ function ToolDependenciesTable(props) {
   }
 }
 
+ToolDependenciesTable.propTypes = {
+  toolDependencies: PropTypes.object,
+  deidentifierInfo: PropTypes.object,
+};
+
 export class InfoDialog extends React.Component {
   static propTypes = {
     toolApi: PropTypes.instanceOf(ToolApi),
