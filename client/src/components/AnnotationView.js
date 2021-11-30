@@ -7,8 +7,7 @@ import PropTypes from 'prop-types';
 function AnnotationView(props) {
   const types = [
     {type: 'text_date', name: 'Date', key: 'textDateAnnotations'},
-    {type: 'text_physical_address', name: 'Physical Address', key:
-    'textPhysicalAddressAnnotations'},
+    {type: 'text_location', name: 'Location', key: 'textLocationAnnotations'},
     {type: 'text_person_name', name: 'Person Name', key:
     'textPersonNameAnnotations'},
     {type: 'text_contact', name: 'Contact Info', key: 'textContactAnnotations'},

@@ -68,7 +68,7 @@ class App extends React.Component {
           confidenceThreshold: 20,
           maskingCharConfig: {maskingChar: '*'},
           annotationTypes: [
-            'text_person_name', 'text_physical_address', 'text_date'],
+            'text_person_name', 'text_location', 'text_date'],
         }],
         note: {
           text: defaultText,
@@ -167,7 +167,7 @@ class App extends React.Component {
       confidenceThreshold: 20,
       maskingCharConfig: {maskingChar: '*'},
       annotationTypes: [
-        'text_person_name', 'text_physical_address', 'text_date'],
+        'text_person_name', 'text_location', 'text_date'],
       key: this.state.deidentifyRequest.keyMax+1,
     };
     deidentificationSteps.push(newDeidStep);
