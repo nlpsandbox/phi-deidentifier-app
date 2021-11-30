@@ -1,9 +1,9 @@
 {
   "devDependencies": {
-    "@openapitools/openapi-generator-cli": "^2.3.3"
+    "@openapitools/openapi-generator-cli": "^2.3.9"
   },
   "scripts": {
-    "generate:server": "openapi-generator-cli generate -g typescript-fetch -o client/src -i $npm_config_spec --additional-properties=typescriptThreePlus=true",
-    "generate:server:latest": "openapi-generator-cli generate -g typescript-fetch -o client/src -i https://nlpsandbox.github.io/nlpsandbox-schemas/phi-deidentifier/latest/openapi.json --additional-properties=typescriptThreePlus=true"
+    "generate": "openapi-generator-cli generate -g typescript-fetch -o client/src -i $npm_config_spec --additional-properties=typescriptThreePlus=true",
+    "generate:latest": "openapi-generator-cli generate -g typescript-fetch -o client/src -i https://nlpsandbox.github.io/nlpsandbox-schemas/phi-deidentifier/latest/openapi.json --additional-properties=typescriptThreePlus=true"
   }
 }

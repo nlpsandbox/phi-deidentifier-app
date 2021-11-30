@@ -2,7 +2,7 @@ name: CI
 
 on:
   schedule:
-    - cron: '0 10 * * *' # everyday at 10am
+    - cron: '15 8 * * *' # everyday at 10am
   push:
     branches:
       - main

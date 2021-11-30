@@ -15,7 +15,7 @@ const DEIDENTIFICATION_STRATEGIES = {
 const ANNOTATION_TYPE_NAMES = {
   'text_date': 'Date',
   'text_person_name': 'Person Name',
-  'text_physical_address': 'Physical Address',
+  'text_location': 'Location',
   'text_contact': 'Contact Info',
   'text_id': 'Identifier',
 };
