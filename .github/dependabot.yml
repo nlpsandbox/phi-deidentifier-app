@@ -8,6 +8,7 @@ updates:
     target-branch: "main"
     reviewers:
       - "nlpsandbox/maintainers"
+    open-pull-requests-limit: 0
 
   - package-ecosystem: "docker"
     directory: "/client"
@@ -16,6 +17,7 @@ updates:
     target-branch: "main"
     reviewers:
       - "nlpsandbox/maintainers"
+    open-pull-requests-limit: 0
 
   - package-ecosystem: "github-actions"
     directory: "/"
@@ -24,6 +26,7 @@ updates:
     target-branch: "develop"
     reviewers:
       - "nlpsandbox/maintainers"
+    open-pull-requests-limit: 0
 
   - package-ecosystem: "npm"
     directory: "/"
@@ -32,6 +35,7 @@ updates:
     target-branch: "main"
     reviewers:
       - "nlpsandbox/maintainers"
+    open-pull-requests-limit: 0
 
   - package-ecosystem: "npm"
     directory: "/client"
@@ -40,3 +44,4 @@ updates:
     target-branch: "main"
     reviewers:
       - "nlpsandbox/maintainers"
+    open-pull-requests-limit: 0
