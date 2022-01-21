@@ -10,16 +10,25 @@ React client for the NLP Sandbox PHI Deidentifier API
 
 ## Usage
 
-The PHI Deidentifier runs on a dockerized stack. First, make sure that you have [installed Docker](https://docs.docker.com/get-docker/)
-in your local environment. Once you have done that, move your working directory to this directory, then run the
-following command to start up the stack:
+## Running with Docker
 
-```
-$ docker-compose up
+Create the configuration file.
+
+```console
+cp .env.example .env
 ```
 
-When running, the Deidentifier stacks provides a web interface at [localhost](http://localhost) that you can use to test
-out a selection of annotators on a clinical note.
+The command below starts the PHI de-identifier locally.
+
+```console
+docker-compose up
+```
+
+You can stop the stack with `Ctrl+C`. Add the option `-d` to the above command
+to run the stack in detached mode. To stop a stack in detached mode, run
+`docker-compose down` from this project folder.
+
+The app should now be available on http://localhost.
 
 ## Development
 
